@@ -718,9 +718,13 @@
             
             document.getElementById('loadMoreBtn').addEventListener('click', handleLoadMore);
 
+            // Carrega TODOS os registros para o dashboard
             try {
-                const allRecords = await fetchAllRecords('avaliacoes-recentes');
-                updateDashboard(allRecords);
+                const allRecordsResponse = await fetch('/api/avaliacoes-todas');
+                if (allRecordsResponse.ok) {
+                    const allRecordsData = await allRecordsResponse.json();
+                    updateDashboard(allRecordsData.records || []);
+                }
             } catch (error) {
                 console.error('Erro ao atualizar dashboard:', error);
             }
@@ -729,8 +733,13 @@
             setInterval(async () => {
                 try {
                     await loadRecentData();
-                    const updatedRecords = await fetchAllRecords('avaliacoes-recentes');
-                    updateDashboard(updatedRecords);
+                    
+                    // Atualiza o dashboard com TODOS os registros
+                    const allRecordsResponse = await fetch('/api/avaliacoes-todas');
+                    if (allRecordsResponse.ok) {
+                        const allRecordsData = await allRecordsResponse.json();
+                        updateDashboard(allRecordsData.records || []);
+                    }
                 } catch (error) {
                     console.error('Erro na atualização automática:', error);
                 }
