@@ -1,7 +1,3 @@
-export const config = {
-  runtime: 'edge',
-};
-
 export default async function (request) {
   // Pega as chaves seguras que estarão na Vercel
   const { AIRTABLE_TOKEN, AIRTABLE_BASE_ID } = process.env;
@@ -28,4 +24,5 @@ export default async function (request) {
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
+
 }
