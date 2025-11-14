@@ -5,13 +5,16 @@ export const config = {
 export default async function (request) {
   const { AIRTABLE_TOKEN, AIRTABLE_BASE_ID } = process.env;
   const AIRTABLE_TABLE_AVALIACOES = 'Avaliacoes';
-  const PAGE_SIZE_MORE = 9;
   
-  // Pega o "offset" (marcador) da URL
+  // EXTRAI OS PARÂMETROS DA URL (A CORREÇÃO ESTÁ AQUI)
   const { searchParams } = new URL(request.url);
+  const pageSize = searchParams.get('pageSize') || '9'; // Padrão é 9 se não for enviado
   const offset = searchParams.get('offset');
   
-  let url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_AVALIACOES}?pageSize=${PAGE_SIZE_MORE}&sort%5B0%5D%5Bfield%5D=Data&sort%5B0%5D%5Bdirection%5D=desc`;
+  // Constrói a URL do Airtable
+  let url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_AVALIACOES}?pageSize=${pageSize}&sort%5B0%5D%5Bfield%5D=Data&sort%5B0%5D%5Bdirection%5D=desc`;
+  
+  // Adiciona o marcador "offset" APENAS SE ele existir
   if (offset) {
     url += `&offset=${offset}`;
   }
