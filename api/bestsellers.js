@@ -1,7 +1,3 @@
-export const config = {
-  runtime: 'edge',
-};
-
 export default async function (request) {
   // Pega a chave do NYT que estará na Vercel
   const { NYT_API_KEY } = process.env;
@@ -23,4 +19,5 @@ export default async function (request) {
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
+
 }
