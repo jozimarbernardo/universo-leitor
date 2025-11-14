@@ -1,7 +1,3 @@
-export const config = {
-  runtime: 'edge',
-};
-
 export default async function (request) {
   const { AIRTABLE_TOKEN, AIRTABLE_BASE_ID } = process.env;
   const AIRTABLE_TABLE_AVALIACOES = 'Avaliacoes';
@@ -33,4 +29,5 @@ export default async function (request) {
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
+
 }
