@@ -1,7 +1,3 @@
-export const config = {
-  runtime: 'edge',
-};
-
 export default async function (request) {
   // Esta função só aceita o método POST
   if (request.method !== 'POST') {
@@ -38,4 +34,5 @@ export default async function (request) {
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
+
 }
