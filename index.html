@@ -26,6 +26,7 @@
         
         .card-hover:hover {
             transform: translateY(-5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .card-hover.physical-card:hover {
@@ -47,6 +48,9 @@
         .swing-icon { animation: swing 2s ease-in-out infinite; }
         @keyframes swing { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
 
+        .review-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
         .review-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -69,30 +73,77 @@
         .like-btn:hover { transform: scale(1.1); color: #ef4444; }
         .like-btn.liked { color: #ef4444; }
 
-        .book-cover { width: 60px; height: 80px; object-fit: cover; border-radius: 8px; background: linear-gradient(135deg, #f3f4f6, #e5e7eb); border: 2px solid #e5e7eb; flex-shrink: 0; }
+        .book-cover { 
+            width: 60px; 
+            height: 80px; 
+            object-fit: cover; 
+            border-radius: 8px; 
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb); 
+            border: 2px solid #e5e7eb; 
+            flex-shrink: 0; 
+        }
+        
         .challenge-card { background: linear-gradient(135deg, #f5f3ff, #eef2ff); }
         
-        .accordion-header { cursor: pointer; transition: all 0.2s ease-in-out; }
-        .accordion-header:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .accordion-header { 
+            cursor: pointer; 
+            transition: all 0.2s ease-in-out; 
+        }
+        .accordion-header:hover { 
+            transform: scale(1.02); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08); 
+        }
         .chevron-icon { transition: transform 0.3s ease-in-out; }
         .accordion-header.active .chevron-icon { transform: rotate(90deg); }
-        .collapsible-section { max-height: 0; overflow: hidden; transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out; }
+        .collapsible-section { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out; 
+        }
         .collapsible-section.open { max-height: 1500px; }
 
-        .horizontal-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1.5rem; padding: 0.5rem 1rem; }
+        .horizontal-carousel { 
+            display: flex; 
+            overflow-x: auto; 
+            scroll-snap-type: x mandatory; 
+            gap: 1.5rem; 
+            padding: 0.5rem 1rem; 
+        }
         .horizontal-carousel::-webkit-scrollbar { height: 8px; }
         .horizontal-carousel::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
         .horizontal-carousel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .horizontal-carousel::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        .bestseller-card { scroll-snap-align: start; flex: 0 0 140px; transition: transform 0.2s ease; }
-        @media (min-width: 640px) { .bestseller-card { flex: 0 0 160px; } }
-        .bestseller-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .bestseller-card { 
+            scroll-snap-align: start; 
+            flex: 0 0 140px; 
+            transition: transform 0.2s ease; 
+        }
+        @media (min-width: 640px) { 
+            .bestseller-card { flex: 0 0 160px; } 
+        }
+        .bestseller-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.3s ease; 
+        }
         .bestseller-card:hover .bestseller-img { transform: scale(1.05); }
         
-        .recommendation-card { scroll-snap-align: start; flex: 0 0 250px; display: flex; flex-direction: column; transition: all 0.3s ease; }
-        @media (min-width: 640px) { .recommendation-card { flex: 0 0 280px; } }
-        .recommendation-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .recommendation-card { 
+            scroll-snap-align: start; 
+            flex: 0 0 250px; 
+            display: flex; 
+            flex-direction: column; 
+            transition: all 0.3s ease; 
+        }
+        @media (min-width: 640px) { 
+            .recommendation-card { flex: 0 0 280px; } 
+        }
+        .recommendation-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+        }
         
         .recommendation-text {
             display: -webkit-box;
@@ -163,7 +214,7 @@
             width: 2.5rem;
             height: 2.5rem;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
             border: none;
             cursor: pointer;
             display: flex;
@@ -174,7 +225,7 @@
         }
         
         .modal-close:hover {
-            background: rgba(0, 0, 0, 0.2);
+            background: white;
             transform: scale(1.1);
         }
         
@@ -185,8 +236,28 @@
             position: relative;
         }
         
+        @media (max-width: 640px) {
+            .modal-header {
+                padding: 2rem 1.5rem 1.5rem 1.5rem;
+            }
+            .modal-header .flex {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .modal-book-cover {
+                margin-bottom: 1rem;
+            }
+        }
+        
         .modal-body {
             padding: 2rem;
+        }
+        
+        @media (max-width: 640px) {
+            .modal-body {
+                padding: 1.5rem;
+            }
         }
         
         .modal-book-cover {
@@ -198,8 +269,14 @@
             border: 4px solid white;
         }
 
-        .tab-button { border-bottom: 3px solid transparent; transition: all 0.3s ease; }
-        .tab-button.active { border-bottom-color: #4f46e5; color: #1e3a8a; }
+        .tab-button { 
+            border-bottom: 3px solid transparent; 
+            transition: all 0.3s ease; 
+        }
+        .tab-button.active { 
+            border-bottom-color: #4f46e5; 
+            color: #1e3a8a; 
+        }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
@@ -211,79 +288,287 @@
             border-radius: 0.5rem;
             margin: 1rem 0;
         }
-/* Esconde a barra de rolagem padrão para ficar mais limpo */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
+        
+        /* Esconde a barra de rolagem padrão para ficar mais limpo */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Setas de navegação - responsivo */
+        .carousel-nav-btn {
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+        
+        .carousel-container:hover .carousel-nav-btn {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .carousel-nav-btn {
+                opacity: 0.7 !important;
+            }
+            .carousel-nav-btn:active {
+                opacity: 1 !important;
+                transform: scale(0.95);
+            }
+        }
+        
+        /* Ajustes para mobile */
+        @media (max-width: 640px) {
+            .book-cover {
+                width: 50px;
+                height: 67px;
+            }
+            
+            .horizontal-carousel {
+                gap: 1rem;
+                padding: 0.5rem;
+            }
+            
+            .recommendation-card {
+                flex: 0 0 220px;
+            }
+            
+            .bestseller-card {
+                flex: 0 0 120px;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen">
-    <div class="text-gray-800 pt-12 px-4"><div class="max-w-4xl mx-auto text-center"><div class="text-5xl mb-4 float-icon">📖</div><h1 class="text-5xl md:text-6xl font-extrabold text-gray-800 tracking-tight">Universo Leitor</h1><p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">Sua estante, suas regras. Descubra, avalie e compartilhe suas leituras e as histórias que te movem!</p></div></div>
-    
-    <div class="max-w-4xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
-        <div class="bg-gradient-to-r from-teal-500 to-emerald-600 text-white rounded-2xl shadow-lg p-6 text-center flex flex-col items-center card-hover physical-card"><h2 class="text-4xl font-extrabold tracking-tight">Descubra o prazer de virar as páginas!</h2><p class="text-base text-teal-100 max-w-xl mx-auto mt-4 flex-grow">Explore as prateleiras de uma biblioteca ou comece a montar a sua própria estante de tesouros.</p><div class="mt-6"><span class="text-5xl bounce-icon">📚</span></div></div>
-        <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-2xl shadow-lg p-6 text-center flex flex-col items-center card-hover biblion-card"><h2 class="text-4xl font-extrabold text-blue-200 tracking-tighter">Bibli<span class="text-white">ON</span></h2><p class="text-base text-orange-100 max-w-xl mx-auto mt-4 flex-grow">Não tem um livro físico por perto? Explore milhares de obras digitais gratuitas na BibliON!</p><a href="https://biblion.odilo.us/" target="_blank" class="inline-flex items-center mt-6 px-8 py-3 bg-white text-orange-600 font-bold rounded-full shadow-lg transform transition-transform hover:scale-105"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg> Explorar Agora</a></div>
+    <div class="text-gray-800 pt-8 md:pt-12 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="text-4xl md:text-5xl mb-4 float-icon">📖</div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-800 tracking-tight">Universo Leitor</h1>
+            <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mt-4">Sua estante, suas regras. Descubra, avalie e compartilhe suas leituras e as histórias que te movem!</p>
+        </div>
     </div>
     
-<section class="container mx-auto px-4 mb-8">
-    <div class="grid grid-cols-2 md:grid-cols-2 gap-4 max-w-4xl mx-auto text-center">
-        
-        <div class="hidden bg-white p-4 rounded-xl shadow-sm border">
-            <p class="text-2xl font-bold text-indigo-600" id="totalLivros">...</p>
-            <p class="text-sm text-gray-500">Livros Avaliados</p>
+    <div class="max-w-4xl mx-auto px-4 py-6 md:py-8 grid md:grid-cols-2 gap-6 md:gap-8">
+        <div class="bg-gradient-to-r from-teal-500 to-emerald-600 text-white rounded-2xl shadow-lg p-5 md:p-6 text-center flex flex-col items-center card-hover physical-card min-h-[240px]">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight">Descubra o prazer de virar as páginas!</h2>
+            <p class="text-sm md:text-base text-teal-100 max-w-xl mx-auto mt-3 md:mt-4 flex-grow">Explore as prateleiras de uma biblioteca ou comece a montar a sua própria estante de tesouros.</p>
+            <div class="mt-4 md:mt-6"><span class="text-4xl md:text-5xl bounce-icon">📚</span></div>
         </div>
-
-        <div class="hidden bg-white p-4 rounded-xl shadow-sm border">
-            <p class="text-2xl font-bold text-indigo-600" id="totalAvaliacoes">...</p>
-            <p class="text-sm text-gray-500">Total de Avaliações</p>
+        <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-2xl shadow-lg p-5 md:p-6 text-center flex flex-col items-center card-hover biblion-card min-h-[240px]">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold text-blue-200 tracking-tighter">Bibli<span class="text-white">ON</span></h2>
+            <p class="text-sm md:text-base text-orange-100 max-w-xl mx-auto mt-3 md:mt-4 flex-grow">Não tem um livro físico por perto? Explore milhares de obras digitais gratuitas na BibliON!</p>
+            <a href="https://biblion.odilo.us/" target="_blank" class="inline-flex items-center mt-4 md:mt-6 px-6 md:px-8 py-2.5 md:py-3 bg-white text-orange-600 font-bold rounded-full shadow-lg transform transition-transform hover:scale-105 text-sm md:text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Explorar Agora
+            </a>
         </div>
-
-        <div class="bg-white p-4 rounded-xl shadow-sm border">
-            <p class="text-2xl font-bold text-indigo-600" id="generoMaisLido">...</p>
-            <p class="text-sm text-gray-500">Gênero Mais Lido</p>
-        </div>
-
-        <div class="bg-white p-4 rounded-xl shadow-sm border">
-            <p class="text-2xl font-bold text-indigo-600" id="leitorDestaque">...</p>
-            <p class="text-sm text-gray-500">Leitor Destaque</p>
-        </div>
-        
-    </div>
-</section>
-
-    <div class="max-w-3xl mx-auto px-4 space-y-3 mb-12">
-        <div data-target="#registro-section" class="accordion-header flex justify-between items-center bg-blue-100 p-4 rounded-xl border-2 border-blue-200"><div class="flex items-center space-x-4"><span class="text-3xl">📝</span><div><h3 class="font-semibold text-lg text-blue-800">Contribuir</h3><p class="text-sm text-blue-700">Clique para registrar suas leituras, físicas ou digitais.</p></div></div><svg class="chevron-icon h-6 w-6 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
-                    <div id="registro-section" class="collapsible-section pl-4 -mt-2"><div class="max-w-full mx-auto p-6 bg-white rounded-b-xl border"><div class="grid md:grid-cols-3 gap-6"><div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 text-center card-hover border border-yellow-200"><div class="text-4xl mb-4 rotate-icon">⭐</div><h3 class="text-lg font-semibold text-yellow-800 mb-3">Avaliar Livro</h3><p class="text-sm text-gray-600 mb-4">Qual nota você dá?</p><button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium text-center">Avaliar</button></div><div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 text-center card-hover border border-green-200"><div class="text-4xl mb-4 bounce-icon">💡</div><h3 class="text-lg font-semibold text-green-800 mb-3">Indicar Livro</h3><p class="text-sm text-gray-600 mb-4">Escreva uma sinopse e recomende</p><button onclick="openForm('indicacoes')" class="block w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-center">Indicar</button></div><div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 text-center card-hover border border-purple-200"><div class="text-4xl mb-4 float-icon">💭</div><h3 class="text-lg font-semibold text-purple-800 mb-3">Compartilhar Opiniões</h3><p class="text-sm text-gray-600 mb-4">Divida suas impressões</p><button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium text-center">Compartilhar</button></div></div></div></div>
-        
-        <div data-target="#desafios-section" class="accordion-header flex justify-between items-center bg-purple-100 p-4 rounded-xl border-2 border-purple-200"><div class="flex items-center space-x-4"><span class="text-3xl">🏆</span><div><h3 class="font-semibold text-lg text-purple-800">Desafios de Leitura</h3><p class="text-sm text-purple-700">Veja as metas atuais e participe da competição.</p></div></div><svg class="chevron-icon h-6 w-6 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
-        <section id="desafios-section" class="collapsible-section pl-4 -mt-2"><div class="p-6 bg-white rounded-b-xl border"><div id="challengesLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div id="challengesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto hidden"></div><div id="challengesEmpty" class="text-center py-8 hidden"><p class="text-gray-600">Nenhum desafio ativo no momento. Fique de olho!</p></div><div id="challengesError" class="error-message hidden"></div></div></section>
-        
-        <div data-target="#sobre-section" class="accordion-header flex justify-between items-center bg-gray-100 p-4 rounded-xl border-2 border-gray-200"><div class="flex items-center space-x-4"><span class="text-3xl">✨</span><div><h3 class="font-semibold text-lg text-gray-800">Sobre o Projeto</h3><p class="text-sm text-gray-700">Conheça o objetivo e a importância da iniciativa.</p></div></div><svg class="chevron-icon h-6 w-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
-        <div id="sobre-section" class="collapsible-section pl-4 -mt-2"><div class="p-6 bg-white rounded-b-xl border"><div class="grid md:grid-cols-2 gap-6"><div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg card-hover border border-blue-200"><div class="flex items-center mb-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg><h3 class="font-bold text-lg text-blue-800">Objetivo</h3></div><p class="text-gray-700 text-sm">Nosso objetivo é transformar qualquer momento livre em uma rica experiência de leitura, seja em um livro físico ou em uma tela. Queremos desenvolver a interpretação e a análise crítica através desta comunidade colaborativa.</p></div><div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg card-hover border border-green-200"><div class="flex items-center mb-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-12v4m-2-2h4m5 4v4m-2-2h4M5 3a2 2 0 00-2 2v1m16 0V5a2 2 0 00-2-2h-1m-4 16l4-4m0 0l4-4m-4 4H4m16 0l-4 4m0 0l-4 4" /></svg><h3 class="font-bold text-lg text-green-800">Importância</h3></div><p class="text-gray-700 text-sm">Em um mundo de tantas distrações, este projeto fortalece o hábito de ler. A iniciativa intenta mobilizar o acesso a novas obras, conectar leitores a descobertas literárias e desenvolver competências essenciais para o século XXI, como o pensamento crítico e a habilidade de análise textual.</p></div></div></div></div>
     </div>
     
-    <section class="py-12 bg-white"><div class="container mx-auto"><div class="text-center mb-8 px-4"><h2 class="text-3xl font-bold mb-4 text-gray-800">Descubra Novas Leituras</h2><div class="border-b border-gray-200"><nav class="-mb-px flex justify-center space-x-4 sm:space-x-8" aria-label="Tabs"><button class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base md:text-lg" data-target="#tab-recommendations">Dicas da Turma</button><button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base md:text-lg text-gray-500 hover:text-gray-700 hover:border-gray-300" data-target="#tab-bestsellers">Tendências Internacionais</button></nav></div></div><div id="tab-recommendations" class="tab-content active"><div id="recommendationsLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div class="relative group px-4 md:px-12"> <button onclick="scrollCarousel('left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg text-gray-500 hover:text-blue-600 hover:scale-110 transition-all hidden md:block border border-gray-100" aria-label="Anterior">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-    </button>
+    <section class="container mx-auto px-4 mb-6 md:mb-8">
+        <div class="grid grid-cols-2 gap-3 md:gap-4 max-w-4xl mx-auto text-center">
+            <div class="bg-white p-3 md:p-4 rounded-xl shadow-sm border">
+                <p class="text-xl md:text-2xl font-bold text-indigo-600" id="generoMaisLido">...</p>
+                <p class="text-xs md:text-sm text-gray-500">Gênero Mais Lido</p>
+            </div>
+            <div class="bg-white p-3 md:p-4 rounded-xl shadow-sm border">
+                <p class="text-xl md:text-2xl font-bold text-indigo-600" id="leitorDestaque">...</p>
+                <p class="text-xs md:text-sm text-gray-500">Leitor Destaque</p>
+            </div>
+        </div>
+    </section>
 
-    <div id="recommendationsCarousel" class="horizontal-carousel hidden scroll-smooth no-scrollbar"></div>
+    <div class="max-w-3xl mx-auto px-4 space-y-3 mb-8 md:mb-12">
+        <div data-target="#registro-section" class="accordion-header flex justify-between items-center bg-blue-100 p-3 md:p-4 rounded-xl border-2 border-blue-200">
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <span class="text-2xl md:text-3xl">📝</span>
+                <div>
+                    <h3 class="font-semibold text-base md:text-lg text-blue-800">Contribuir</h3>
+                    <p class="text-xs md:text-sm text-blue-700">Clique para registrar suas leituras, físicas ou digitais.</p>
+                </div>
+            </div>
+            <svg class="chevron-icon h-5 w-5 md:h-6 md:w-6 text-blue-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </div>
+        
+        <div id="registro-section" class="collapsible-section pl-2 md:pl-4 -mt-2">
+            <div class="max-w-full mx-auto p-4 md:p-6 bg-white rounded-b-xl border">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+                    <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 md:p-6 text-center card-hover border border-yellow-200">
+                        <div class="text-3xl md:text-4xl mb-3 md:mb-4 rotate-icon">⭐</div>
+                        <h3 class="text-base md:text-lg font-semibold text-yellow-800 mb-2 md:mb-3">Avaliar Livro</h3>
+                        <p class="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">Qual nota você dá?</p>
+                        <button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium text-sm md:text-base text-center">Avaliar</button>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 md:p-6 text-center card-hover border border-green-200">
+                        <div class="text-3xl md:text-4xl mb-3 md:mb-4 bounce-icon">💡</div>
+                        <h3 class="text-base md:text-lg font-semibold text-green-800 mb-2 md:mb-3">Indicar Livro</h3>
+                        <p class="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">Escreva uma sinopse e recomende</p>
+                        <button onclick="openForm('indicacoes')" class="block w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-sm md:text-base text-center">Indicar</button>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 md:p-6 text-center card-hover border border-purple-200">
+                        <div class="text-3xl md:text-4xl mb-3 md:mb-4 float-icon">💭</div>
+                        <h3 class="text-base md:text-lg font-semibold text-purple-800 mb-2 md:mb-3">Compartilhar Opiniões</h3>
+                        <p class="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">Divida suas impressões</p>
+                        <button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm md:text-base text-center">Compartilhar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div data-target="#desafios-section" class="accordion-header flex justify-between items-center bg-purple-100 p-3 md:p-4 rounded-xl border-2 border-purple-200">
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <span class="text-2xl md:text-3xl">🏆</span>
+                <div>
+                    <h3 class="font-semibold text-base md:text-lg text-purple-800">Desafios de Leitura</h3>
+                    <p class="text-xs md:text-sm text-purple-700">Veja as metas atuais e participe da competição.</p>
+                </div>
+            </div>
+            <svg class="chevron-icon h-5 w-5 md:h-6 md:w-6 text-purple-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </div>
+        
+        <section id="desafios-section" class="collapsible-section pl-2 md:pl-4 -mt-2">
+            <div class="p-4 md:p-6 bg-white rounded-b-xl border">
+                <div id="challengesLoading" class="text-center py-8">
+                    <div class="loading-spinner mx-auto"></div>
+                </div>
+                <div id="challengesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto hidden"></div>
+                <div id="challengesEmpty" class="text-center py-8 hidden">
+                    <p class="text-gray-600 text-sm md:text-base">Nenhum desafio ativo no momento. Fique de olho!</p>
+                </div>
+                <div id="challengesError" class="error-message hidden"></div>
+            </div>
+        </section>
+        
+        <div data-target="#sobre-section" class="accordion-header flex justify-between items-center bg-gray-100 p-3 md:p-4 rounded-xl border-2 border-gray-200">
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <span class="text-2xl md:text-3xl">✨</span>
+                <div>
+                    <h3 class="font-semibold text-base md:text-lg text-gray-800">Sobre o Projeto</h3>
+                    <p class="text-xs md:text-sm text-gray-700">Conheça o objetivo e a importância da iniciativa.</p>
+                </div>
+            </div>
+            <svg class="chevron-icon h-5 w-5 md:h-6 md:w-6 text-gray-700 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </div>
+        
+        <div id="sobre-section" class="collapsible-section pl-2 md:pl-4 -mt-2">
+            <div class="p-4 md:p-6 bg-white rounded-b-xl border">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 md:p-6 rounded-lg card-hover border border-blue-200">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 md:h-8 md:w-8 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <h3 class="font-bold text-base md:text-lg text-blue-800">Objetivo</h3>
+                        </div>
+                        <p class="text-gray-700 text-xs md:text-sm">Nosso objetivo é transformar qualquer momento livre em uma rica experiência de leitura, seja em um livro físico ou em uma tela. Queremos desenvolver a interpretação e a análise crítica através desta comunidade colaborativa.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 md:p-6 rounded-lg card-hover border border-green-200">
+                        <div class="flex items-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 md:h-8 md:w-8 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-12v4m-2-2h4m5 4v4m-2-2h4M5 3a2 2 0 00-2 2v1m16 0V5a2 2 0 00-2-2h-1m-4 16l4-4m0 0l4-4m-4 4H4m16 0l-4 4m0 0l-4 4" />
+                            </svg>
+                            <h3 class="font-bold text-base md:text-lg text-green-800">Importância</h3>
+                        </div>
+                        <p class="text-gray-700 text-xs md:text-sm">Em um mundo de tantas distrações, este projeto fortalece o hábito de ler. A iniciativa intenta mobilizar o acesso a novas obras, conectar leitores a descobertas literárias e desenvolver competências essenciais para o século XXI, como o pensamento crítico e a habilidade de análise textual.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="py-8 md:py-12 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-6 md:mb-8 px-4">
+                <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-gray-800">Descubra Novas Leituras</h2>
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex justify-center space-x-4 sm:space-x-8" aria-label="Tabs">
+                        <button class="tab-button active whitespace-nowrap py-3 md:py-4 px-1 border-b-2 font-medium text-sm md:text-base lg:text-lg" data-target="#tab-recommendations">Dicas da Turma</button>
+                        <button class="tab-button whitespace-nowrap py-3 md:py-4 px-1 border-b-2 font-medium text-sm md:text-base lg:text-lg text-gray-500 hover:text-gray-700 hover:border-gray-300" data-target="#tab-bestsellers">Tendências Internacionais</button>
+                    </nav>
+                </div>
+            </div>
+            
+            <div id="tab-recommendations" class="tab-content active">
+                <div id="recommendationsLoading" class="text-center py-8">
+                    <div class="loading-spinner mx-auto"></div>
+                </div>
+                
+                <div class="relative carousel-container px-4 md:px-12">
+                    <button onclick="scrollCarousel('left')" class="carousel-nav-btn absolute left-0 md:left-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg text-gray-500 hover:text-blue-600 hover:scale-110 transition-all border border-gray-100" aria-label="Anterior">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
 
-    <button onclick="scrollCarousel('right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg text-gray-500 hover:text-blue-600 hover:scale-110 transition-all hidden md:block border border-gray-100" aria-label="Próximo">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-    </button>
-</div><div id="recommendationsEmpty" class="text-center py-8 hidden"><p class="text-gray-600">Ainda não há indicações. Seja o primeiro a recomendar um livro!</p></div><div id="recommendationsError" class="error-message hidden"></div></div><div id="tab-bestsellers" class="tab-content"><div id="bestsellersLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div id="bestsellersCarousel" class="horizontal-carousel hidden"></div><div id="bestsellersError" class="error-message hidden"></div></div></div></section>
+                    <div id="recommendationsCarousel" class="horizontal-carousel hidden scroll-smooth no-scrollbar"></div>
+
+                    <button onclick="scrollCarousel('right')" class="carousel-nav-btn absolute right-0 md:right-2 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg text-gray-500 hover:text-blue-600 hover:scale-110 transition-all border border-gray-100" aria-label="Próximo">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div id="recommendationsEmpty" class="text-center py-8 hidden">
+                    <p class="text-gray-600 text-sm md:text-base">Ainda não há indicações. Seja o primeiro a recomendar um livro!</p>
+                </div>
+                <div id="recommendationsError" class="error-message hidden mx-4"></div>
+            </div>
+            
+            <div id="tab-bestsellers" class="tab-content">
+                <div id="bestsellersLoading" class="text-center py-8">
+                    <div class="loading-spinner mx-auto"></div>
+                </div>
+                <div id="bestsellersCarousel" class="horizontal-carousel hidden"></div>
+                <div id="bestsellersError" class="error-message hidden mx-4"></div>
+            </div>
+        </div>
+    </section>
     
-    <section class="py-12 bg-gray-50 border-t"><div class="container mx-auto px-4"><div class="text-center mb-12"><h2 class="text-3xl font-bold mb-4 text-gray-800">📝 Avaliações Recentes</h2><p class="text-lg text-gray-600">As últimas contribuições da nossa comunidade!</p></div><div id="loading" class="text-center py-12"><div class="loading-spinner mx-auto"></div></div><div id="reviewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden"></div><div id="emptyState" class="text-center py-12 hidden"><div class="text-6xl mb-4">💡</div><h3 class="text-2xl font-semibold text-gray-700">Ainda não há avaliações</h3><p class="text-gray-600">Seja o primeiro a compartilhar sua leitura!</p></div><div id="recentError" class="error-message hidden"></div></div></section>
+    <section class="py-8 md:py-12 bg-gray-50 border-t">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-gray-800">📝 Avaliações Recentes</h2>
+                <p class="text-base md:text-lg text-gray-600">As últimas contribuições da nossa comunidade!</p>
+            </div>
+            <div id="loading" class="text-center py-12">
+                <div class="loading-spinner mx-auto"></div>
+            </div>
+            <div id="reviewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 hidden"></div>
+            <div id="emptyState" class="text-center py-12 hidden">
+                <div class="text-5xl md:text-6xl mb-4">💡</div>
+                <h3 class="text-xl md:text-2xl font-semibold text-gray-700">Ainda não há avaliações</h3>
+                <p class="text-sm md:text-base text-gray-600">Seja o primeiro a compartilhar sua leitura!</p>
+            </div>
+            <div id="recentError" class="error-message hidden"></div>
+        </div>
+    </section>
     
-    <section class="py-12 bg-gray-100 border-t"><div class="container mx-auto px-4"><div class="text-center mb-12"><h2 class="text-3xl font-bold mb-4 text-gray-800">🗺️ Explore Mais Avaliações</h2><p class="text-lg text-gray-600">Navegue por todo o nosso histórico de leituras.</p></div><div id="allReviewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div><div id="loadMoreContainer" class="text-center mt-12"><div id="loadMoreSpinner" class="hidden mx-auto"><div class="loading-spinner"></div></div><button id="loadMoreBtn" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition-all transform hover:scale-105 text-lg shadow-lg">Carregar Mais Avaliações</button></div><div id="exploreError" class="error-message hidden"></div></div></section>
+    <section class="py-8 md:py-12 bg-gray-100 border-t">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-gray-800">🗺️ Explore Mais Avaliações</h2>
+                <p class="text-base md:text-lg text-gray-600">Navegue por todo o nosso histórico de leituras.</p>
+            </div>
+            <div id="allReviewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
+            <div id="loadMoreContainer" class="text-center mt-8 md:mt-12">
+                <div id="loadMoreSpinner" class="hidden mx-auto">
+                    <div class="loading-spinner"></div>
+                </div>
+                <button id="loadMoreBtn" class="bg-blue-600 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full font-bold hover:bg-blue-700 transition-all transform hover:scale-105 text-base md:text-lg shadow-lg">Carregar Mais Avaliações</button>
+            </div>
+            <div id="exploreError" class="error-message hidden"></div>
+        </div>
+    </section>
 
     <script>
         // --- CONFIGURAÇÃO GLOBAL ---
@@ -351,12 +636,11 @@
             
             // Remove formatação Rich Text do modal também
             fullText = fullText
-                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')  // Converte **negrito** para HTML
-                .replace(/\*([^*]+)\*/g, '<em>$1</em>')              // Converte *itálico* para HTML
-                .replace(/\n/g, '<br>')                              // Quebras de linha
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>')
                 .trim();
             
-            // Cria o modal
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.onclick = (e) => {
@@ -369,7 +653,7 @@
             if (biblionLink) {
                 biblionHTML = `
                     <a href="${biblionLink}" target="_blank" rel="noopener noreferrer" 
-                       class="inline-flex items-center justify-center w-full px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg mt-4">
+                       class="inline-flex items-center justify-center w-full px-6 py-3 text-sm md:text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg mt-4">
                         📖 Ler na BibliON
                     </a>
                 `;
@@ -378,7 +662,7 @@
             modal.innerHTML = `
                 <div class="modal-content">
                     <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
@@ -387,20 +671,20 @@
                         <div class="flex items-start gap-4">
                             <img src="${coverImg}" alt="Capa de ${bookTitle}" class="modal-book-cover">
                             <div class="flex-1 text-white pt-2">
-                                <h3 class="text-2xl font-bold mb-2">${bookTitle}</h3>
-                                <p class="text-blue-100 text-base">${author}</p>
+                                <h3 class="text-xl md:text-2xl font-bold mb-2">${bookTitle}</h3>
+                                <p class="text-blue-100 text-sm md:text-base">${author}</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="modal-body">
                         <div class="mb-4">
-                            <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
-                            <p class="text-gray-700 text-base leading-relaxed italic">${fullText}</p>
+                            <h4 class="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
+                            <p class="text-gray-700 text-sm md:text-base leading-relaxed italic">${fullText}</p>
                         </div>
                         
                         <div class="border-t pt-4 mt-4">
-                            <p class="text-sm text-purple-600 font-medium">- ${indicatedBy}</p>
+                            <p class="text-xs md:text-sm text-purple-600 font-medium">- ${indicatedBy}</p>
                             ${school ? `<p class="text-xs text-gray-400 mt-1">${school}</p>` : ''}
                         </div>
                         
@@ -492,7 +776,7 @@
             } 
             likeCountSpan.textContent = newLikeCount; 
             const success = await updateLikesInAirtable(recordId, newLikeCount); 
-                            if (!success) { 
+            if (!success) { 
                 if (wasLiked) { 
                     buttonEl.classList.add('liked'); 
                     saveLikedReview(recordId); 
@@ -567,8 +851,8 @@
             const bookLink = bookData.bookLink; 
             
             const coverImg = coverUrl ? 
-                `<img src="${coverUrl}" alt="Capa do livro ${fields.Livro}" class="book-cover mr-4">` : 
-                `<div class="book-cover mr-4 flex items-center justify-center text-gray-400 text-center text-xs">Capa não encontrada</div>`; 
+                `<img src="${coverUrl}" alt="Capa do livro ${fields.Livro}" class="book-cover mr-3 md:mr-4">` : 
+                `<div class="book-cover mr-3 md:mr-4 flex items-center justify-center text-gray-400 text-center text-xs">Capa não encontrada</div>`; 
             
             const coverElement = bookLink ? 
                 `<a href="${bookLink}" target="_blank" rel="noopener noreferrer" title="Ver mais sobre o livro">${coverImg}</a>` : 
@@ -583,27 +867,27 @@
                 <div class="flex-grow">
                     <div class="flex">
                         ${coverElement}
-                        <div class="flex-grow">
-                            <h3 class="text-lg font-bold text-gray-800 mb-1 leading-tight">${fields.Livro || 'N/A'}</h3>
-                            <p class="text-sm text-gray-500 mb-2">por ${fields.Autor || 'N/A'}</p>
-                            <div class="star-rating text-md mb-2">${getStars(fields.Avaliacao)}</div>
+                        <div class="flex-grow min-w-0">
+                            <h3 class="text-base md:text-lg font-bold text-gray-800 mb-1 leading-tight">${fields.Livro || 'N/A'}</h3>
+                            <p class="text-xs md:text-sm text-gray-500 mb-2">por ${fields.Autor || 'N/A'}</p>
+                            <div class="star-rating text-sm md:text-md mb-2">${getStars(fields.Avaliacao)}</div>
                             <p class="text-xs text-gray-400 mb-3">${getRelativeTime(fields.Data)}</p>
                         </div>
                     </div>
-                    ${fields.Comentario ? `<p class="text-gray-700 italic text-sm my-3">"${fields.Comentario}"</p>` : ''}
+                    ${fields.Comentario ? `<p class="text-gray-700 italic text-xs md:text-sm my-3">"${fields.Comentario}"</p>` : ''}
                 </div>
                 ${challengeHTML}
                 <div class="mt-auto pt-3 border-t border-gray-100 flex justify-between items-center">
                     <div class="flex items-center space-x-1 text-gray-500">
                         <button class="like-btn ${likedClass} p-1 border-none bg-transparent" onclick="handleLikeClick(this, '${review.id}')">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                             </svg>
                         </button>
                         <span class="like-count font-medium text-xs">${likeCount}</span>
                     </div>
-                    <div class="text-right">
-                        <span class="text-purple-600 font-medium text-sm block">📚 ${fields.Estudante || 'Anônimo'}</span>
+                    <div class="text-right min-w-0">
+                        <span class="text-purple-600 font-medium text-xs md:text-sm block truncate">📚 ${fields.Estudante || 'Anônimo'}</span>
                         ${schoolHTML}
                     </div>
                 </div>
@@ -619,7 +903,6 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                // A API retorna diretamente o array de records
                 return Array.isArray(data) ? data : data.records || [];
             } catch (error) {
                 console.error(`Erro ao buscar registros de ${table}:`, error);
@@ -629,11 +912,6 @@
         
         function updateDashboard(records) { 
             if (records.length === 0) return; 
-            
-            document.getElementById('totalAvaliacoes').textContent = records.length; 
-            
-            const uniqueBooks = new Set(records.map(r => r.fields?.Livro?.trim()).filter(Boolean)); 
-            document.getElementById('totalLivros').textContent = uniqueBooks.size; 
             
             const genreCounts = {}; 
             records.forEach(r => { 
@@ -685,12 +963,12 @@
                 activeChallenges.forEach(challenge => { 
                     const fields = challenge.fields; 
                     const card = document.createElement('div'); 
-                    card.className = 'challenge-card p-6 rounded-2xl shadow-md border border-indigo-200'; 
+                    card.className = 'challenge-card p-4 md:p-6 rounded-2xl shadow-md border border-indigo-200'; 
                     card.innerHTML = `
-                        <h3 class="text-xl font-bold text-indigo-800 mb-3 flex items-center">
-                            <span class="text-2xl mr-3">🏆</span> ${fields['Nome do Desafio']}
+                        <h3 class="text-lg md:text-xl font-bold text-indigo-800 mb-3 flex items-center">
+                            <span class="text-xl md:text-2xl mr-3">🏆</span> ${fields['Nome do Desafio']}
                         </h3>
-                        <p class="text-gray-700">${fields['Descrição'] || 'Complete este desafio!'}</p>
+                        <p class="text-sm md:text-base text-gray-700">${fields['Descrição'] || 'Complete este desafio!'}</p>
                     `; 
                     gridEl.appendChild(card); 
                 });
@@ -730,7 +1008,7 @@
                         biblionButtonHTML = `
                             <div class="mt-auto pt-3">
                                 <a href="${biblionLink}" target="_blank" rel="noopener noreferrer" 
-                                   class="inline-flex items-center justify-center w-full px-3 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                                   class="inline-flex items-center justify-center w-full px-3 py-2 text-xs md:text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
                                     Ler na BibliON
                                 </a>
                             </div>
@@ -739,28 +1017,25 @@
                     
                     const schoolHTML = fields.Escola ? `<p class="text-xs text-gray-400 mt-1">${fields.Escola}</p>` : ''; 
                     
-                    // Pega o texto da sinopse (pode vir formatado do Airtable)
                     let sinopse = fields['Motivo da indicação'] || '';
                     
-                    // Remove formatação Markdown/Rich text comum do Airtable
                     sinopse = sinopse
-                        .replace(/\*\*([^*]+)\*\*/g, '$1')  // Remove **negrito**
-                        .replace(/\*([^*]+)\*/g, '$1')      // Remove *itálico*
-                        .replace(/~~([^~]+)~~/g, '$1')      // Remove ~~riscado~~
-                        .replace(/`([^`]+)`/g, '$1')        // Remove `código`
-                        .replace(/#{1,6}\s+/g, '')          // Remove # cabeçalhos
+                        .replace(/\*\*([^*]+)\*\*/g, '$1')
+                        .replace(/\*([^*]+)\*/g, '$1')
+                        .replace(/~~([^~]+)~~/g, '$1')
+                        .replace(/`([^`]+)`/g, '$1')
+                        .replace(/#{1,6}\s+/g, '')
                         .trim();
                     
-                    // Cria versão resumida apenas para visualização no card
-            const sinopseResumida = sinopse.length > 80 ? 
-                sinopse.substring(0, 80) + '...' : 
-                sinopse;
-            
-            const needsExpand = sinopse.length > 80;
+                    const sinopseResumida = sinopse.length > 80 ? 
+                        sinopse.substring(0, 80) + '...' : 
+                        sinopse;
+                    
+                    const needsExpand = sinopse.length > 80;
                     const uniqueId = `rec-modal-${idx}-${Date.now()}`;
                     
                     return `
-                        <div class="recommendation-card block bg-white rounded-lg shadow-md p-4" data-card-id="${uniqueId}" 
+                        <div class="recommendation-card block bg-white rounded-lg shadow-md p-3 md:p-4" data-card-id="${uniqueId}" 
                              data-cover="${coverUrl}" 
                              data-book-title="${fields['Livro indicado']?.replace(/"/g, '&quot;')}" 
                              data-author="${(fields.Autor || 'N/A').replace(/"/g, '&quot;')}"
@@ -768,20 +1043,20 @@
                              data-indicated-by="${(fields['Indicado por'] || 'Anônimo').replace(/"/g, '&quot;')}"
                              data-school="${(fields.Escola || '').replace(/"/g, '&quot;')}"
                              data-biblion-link="${biblionLink || ''}">
-                            <div class="flex items-start space-x-4">
+                            <div class="flex items-start space-x-3 md:space-x-4">
                                 <a href="${finalBookLink}" target="_blank" rel="noopener noreferrer">
                                     <img src="${coverUrl}" alt="Capa de ${fields['Livro indicado']}" 
-                                         class="w-20 h-28 object-cover rounded-md shadow-sm flex-shrink-0">
+                                         class="w-16 h-24 md:w-20 md:h-28 object-cover rounded-md shadow-sm flex-shrink-0">
                                 </a>
-                                <div class="flex-1 flex flex-col">
-                                    <h4 class="font-bold text-gray-800 mb-1">${fields['Livro indicado']}</h4>
-                                    <p class="text-sm text-gray-500 mb-2">por ${fields.Autor || 'N/A'}</p>
+                                <div class="flex-1 flex flex-col min-w-0">
+                                    <h4 class="font-bold text-sm md:text-base text-gray-800 mb-1 truncate">${fields['Livro indicado']}</h4>
+                                    <p class="text-xs md:text-sm text-gray-500 mb-2 truncate">por ${fields.Autor || 'N/A'}</p>
                                     <div class="flex-grow">
-                                        <p class="text-sm italic text-gray-600 recommendation-text">${sinopseResumida}</p>
+                                        <p class="text-xs md:text-sm italic text-gray-600 recommendation-text">${sinopseResumida}</p>
                                         ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
                                     </div>
                                     <div class="text-right mt-2">
-                                        <p class="text-xs text-purple-600 font-medium">- ${fields['Indicado por'] || 'Anônimo'}</p>
+                                        <p class="text-xs text-purple-600 font-medium truncate">- ${fields['Indicado por'] || 'Anônimo'}</p>
                                         ${schoolHTML}
                                     </div>
                                 </div>
@@ -806,7 +1081,6 @@
                 const response = await fetch(`/api/avaliacoes-recentes`); 
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
                 const data = await response.json(); 
-                // A API deve retornar { records: [...], offset: ... }
                 return data;
             } catch (error) { 
                 console.error('Erro ao buscar avaliações recentes:', error); 
@@ -818,7 +1092,6 @@
             const grid = document.getElementById('reviewsGrid'); 
             const loading = document.getElementById('loading'); 
             const emptyState = document.getElementById('emptyState'); 
-            const errorEl = document.getElementById('recentError');
             
             loading.classList.add('hidden'); 
             
@@ -840,12 +1113,39 @@
                 const data = await fetchRecentReviews(); 
                 await renderRecentReviews(data); 
                 allReviewsOffset = data.offset;
+                
+                // Carrega as próximas avaliações automaticamente na seção "Explore Mais"
+                if (allReviewsOffset) {
+                    await loadInitialMoreReviews();
+                }
             } catch (error) {
                 console.error('Erro ao carregar dados recentes:', error);
                 document.getElementById('loading').classList.add('hidden');
                 const errorEl = document.getElementById('recentError');
                 errorEl.textContent = 'Erro ao carregar avaliações recentes. Verifique se as APIs estão configuradas corretamente.';
                 errorEl.classList.remove('hidden');
+            }
+        }
+        
+        async function loadInitialMoreReviews() {
+            try {
+                const data = await fetchMoreReviews(allReviewsOffset);
+                
+                if (data.records && data.records.length > 0) {
+                    await renderMoreReviews(data.records);
+                }
+                
+                allReviewsOffset = data.offset;
+                
+                // Mostra ou esconde o botão "Carregar Mais"
+                const btn = document.getElementById('loadMoreBtn');
+                if (allReviewsOffset) {
+                    btn.classList.remove('hidden');
+                } else {
+                    btn.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar avaliações iniciais da seção Explore:', error);
             }
         }
         
@@ -948,7 +1248,7 @@
                             <img src="${coverUrl}" alt="Capa de ${book.title}" class="bestseller-img">
                         </div>
                         <div class="p-2">
-                            <h4 class="text-sm font-bold text-gray-800 truncate">${book.title}</h4>
+                            <h4 class="text-xs md:text-sm font-bold text-gray-800 truncate">${book.title}</h4>
                             <p class="text-xs text-gray-500 truncate">por ${book.author}</p>
                         </div>
                     </a>
@@ -968,17 +1268,18 @@
                 document.getElementById('bestsellersLoading').classList.add('hidden'); 
             } 
         }
+        
         // --- LÓGICA DE NAVEGAÇÃO CARROSSEL ---
-function scrollCarousel(direction) {
-    const container = document.getElementById('recommendationsCarousel');
-    const scrollAmount = 300; // Quantidade de pixels para rolar (largura aproximada de um card)
-    
-    if (direction === 'left') {
-        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    } else {
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-}
+        function scrollCarousel(direction) {
+            const container = document.getElementById('recommendationsCarousel');
+            const scrollAmount = 300;
+            
+            if (direction === 'left') {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
         
         // --- INICIALIZAÇÃO ---
         document.addEventListener('DOMContentLoaded', async () => {
@@ -994,7 +1295,6 @@ function scrollCarousel(direction) {
             
             document.getElementById('loadMoreBtn').addEventListener('click', handleLoadMore);
 
-            // Carrega TODOS os registros para o dashboard
             try {
                 const allRecordsResponse = await fetch('/api/avaliacoes-todas');
                 if (allRecordsResponse.ok) {
@@ -1005,12 +1305,10 @@ function scrollCarousel(direction) {
                 console.error('Erro ao atualizar dashboard:', error);
             }
             
-            // Atualização automática a cada 90 segundos
             setInterval(async () => {
                 try {
                     await loadRecentData();
                     
-                    // Atualiza o dashboard com TODOS os registros
                     const allRecordsResponse = await fetch('/api/avaliacoes-todas');
                     if (allRecordsResponse.ok) {
                         const allRecordsData = await allRecordsResponse.json();
