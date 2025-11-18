@@ -707,11 +707,11 @@
                         .trim();
                     
                     // Cria versão resumida apenas para visualização no card
-                    const sinopseResumida = sinopse.length > 150 ? 
-                        sinopse.substring(0, 150) + '...' : 
-                        sinopse;
-                    
-                    const needsExpand = sinopse.length > 150;
+            const sinopseResumida = sinopse.length > 80 ? 
+                sinopse.substring(0, 80) + '...' : 
+                sinopse;
+            
+            const needsExpand = sinopse.length > 80;
                     const uniqueId = `rec-modal-${idx}-${Date.now()}`;
                     
                     return `
