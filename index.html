@@ -299,10 +299,17 @@
             const coverImg = card.dataset.cover;
             const bookTitle = card.dataset.bookTitle;
             const author = card.dataset.author;
-            const fullText = card.dataset.sinopse;
+            let fullText = card.dataset.sinopse;
             const indicatedBy = card.dataset.indicatedBy;
             const school = card.dataset.school;
             const biblionLink = card.dataset.biblionLink;
+            
+            // Remove formatação Rich Text do modal também
+            fullText = fullText
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')  // Converte **negrito** para HTML
+                .replace(/\*([^*]+)\*/g, '<em>$1</em>')              // Converte *itálico* para HTML
+                .replace(/\n/g, '<br>')                              // Quebras de linha
+                .trim();
             
             // Cria o modal
             const modal = document.createElement('div');
@@ -687,8 +694,23 @@
                     
                     const schoolHTML = fields.Escola ? `<p class="text-xs text-gray-400 mt-1">${fields.Escola}</p>` : ''; 
                     
-                    // Verifica se o texto precisa ser cortado
-                    const sinopse = fields['Motivo da indicação'] || '';
+                    // Pega o texto da sinopse (pode vir formatado do Airtable)
+                    let sinopse = fields['Motivo da indicação'] || '';
+                    
+                    // Remove formatação Markdown/Rich text comum do Airtable
+                    sinopse = sinopse
+                        .replace(/\*\*([^*]+)\*\*/g, '$1')  // Remove **negrito**
+                        .replace(/\*([^*]+)\*/g, '$1')      // Remove *itálico*
+                        .replace(/~~([^~]+)~~/g, '$1')      // Remove ~~riscado~~
+                        .replace(/`([^`]+)`/g, '$1')        // Remove `código`
+                        .replace(/#{1,6}\s+/g, '')          // Remove # cabeçalhos
+                        .trim();
+                    
+                    // Cria versão resumida apenas para visualização no card
+                    const sinopseResumida = sinopse.length > 200 ? 
+                        sinopse.substring(0, 200) + '...' : 
+                        sinopse;
+                    
                     const needsExpand = sinopse.length > 200;
                     const uniqueId = `rec-modal-${idx}-${Date.now()}`;
                     
@@ -710,7 +732,7 @@
                                     <h4 class="font-bold text-gray-800 mb-1">${fields['Livro indicado']}</h4>
                                     <p class="text-sm text-gray-500 mb-2">por ${fields.Autor || 'N/A'}</p>
                                     <div class="flex-grow">
-                                        <p class="text-sm italic text-gray-600 recommendation-text">"${sinopse}"</p>
+                                        <p class="text-sm italic text-gray-600 recommendation-text">"${sinopseResumida}"</p>
                                         ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
                                     </div>
                                     <div class="text-right mt-2">
