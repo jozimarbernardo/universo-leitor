@@ -211,6 +211,14 @@
             border-radius: 0.5rem;
             margin: 1rem 0;
         }
+/* Esconde a barra de rolagem padrão para ficar mais limpo */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
     </style>
 </head>
 <body class="min-h-screen">
@@ -234,7 +242,20 @@
         <div id="sobre-section" class="collapsible-section pl-4 -mt-2"><div class="p-6 bg-white rounded-b-xl border"><div class="grid md:grid-cols-2 gap-6"><div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg card-hover border border-blue-200"><div class="flex items-center mb-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg><h3 class="font-bold text-lg text-blue-800">Objetivo</h3></div><p class="text-gray-700 text-sm">Nosso objetivo é transformar qualquer momento livre em uma rica experiência de leitura, seja em um livro físico ou em uma tela. Queremos desenvolver a interpretação e a análise crítica através desta comunidade colaborativa.</p></div><div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg card-hover border border-green-200"><div class="flex items-center mb-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-12v4m-2-2h4m5 4v4m-2-2h4M5 3a2 2 0 00-2 2v1m16 0V5a2 2 0 00-2-2h-1m-4 16l4-4m0 0l4-4m-4 4H4m16 0l-4 4m0 0l-4 4" /></svg><h3 class="font-bold text-lg text-green-800">Importância</h3></div><p class="text-gray-700 text-sm">Em um mundo de tantas distrações, este projeto fortalece o hábito de ler. A iniciativa intenta mobilizar o acesso a novas obras, conectar leitores a descobertas literárias e desenvolver competências essenciais para o século XXI, como o pensamento crítico e a habilidade de análise textual.</p></div></div></div></div>
     </div>
     
-    <section class="py-12 bg-white"><div class="container mx-auto"><div class="text-center mb-8 px-4"><h2 class="text-3xl font-bold mb-4 text-gray-800">Descubra Novas Leituras</h2><div class="border-b border-gray-200"><nav class="-mb-px flex justify-center space-x-4 sm:space-x-8" aria-label="Tabs"><button class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base md:text-lg" data-target="#tab-recommendations">Dicas da Turma</button><button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base md:text-lg text-gray-500 hover:text-gray-700 hover:border-gray-300" data-target="#tab-bestsellers">Tendências Internacionais</button></nav></div></div><div id="tab-recommendations" class="tab-content active"><div id="recommendationsLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div id="recommendationsCarousel" class="horizontal-carousel hidden"></div><div id="recommendationsEmpty" class="text-center py-8 hidden"><p class="text-gray-600">Ainda não há indicações. Seja o primeiro a recomendar um livro!</p></div><div id="recommendationsError" class="error-message hidden"></div></div><div id="tab-bestsellers" class="tab-content"><div id="bestsellersLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div id="bestsellersCarousel" class="horizontal-carousel hidden"></div><div id="bestsellersError" class="error-message hidden"></div></div></div></section>
+    <section class="py-12 bg-white"><div class="container mx-auto"><div class="text-center mb-8 px-4"><h2 class="text-3xl font-bold mb-4 text-gray-800">Descubra Novas Leituras</h2><div class="border-b border-gray-200"><nav class="-mb-px flex justify-center space-x-4 sm:space-x-8" aria-label="Tabs"><button class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base md:text-lg" data-target="#tab-recommendations">Dicas da Turma</button><button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base md:text-lg text-gray-500 hover:text-gray-700 hover:border-gray-300" data-target="#tab-bestsellers">Tendências Internacionais</button></nav></div></div><div id="tab-recommendations" class="tab-content active"><div id="recommendationsLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div class="relative group px-4 md:px-12"> <button onclick="scrollCarousel('left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg text-gray-500 hover:text-blue-600 hover:scale-110 transition-all hidden md:block border border-gray-100" aria-label="Anterior">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+
+    <div id="recommendationsCarousel" class="horizontal-carousel hidden scroll-smooth no-scrollbar"></div>
+
+    <button onclick="scrollCarousel('right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg text-gray-500 hover:text-blue-600 hover:scale-110 transition-all hidden md:block border border-gray-100" aria-label="Próximo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+</div><div id="recommendationsEmpty" class="text-center py-8 hidden"><p class="text-gray-600">Ainda não há indicações. Seja o primeiro a recomendar um livro!</p></div><div id="recommendationsError" class="error-message hidden"></div></div><div id="tab-bestsellers" class="tab-content"><div id="bestsellersLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div id="bestsellersCarousel" class="horizontal-carousel hidden"></div><div id="bestsellersError" class="error-message hidden"></div></div></div></section>
     
     <section class="py-12 bg-gray-50 border-t"><div class="container mx-auto px-4"><div class="text-center mb-12"><h2 class="text-3xl font-bold mb-4 text-gray-800">📝 Avaliações Recentes</h2><p class="text-lg text-gray-600">As últimas contribuições da nossa comunidade!</p></div><div id="loading" class="text-center py-12"><div class="loading-spinner mx-auto"></div></div><div id="reviewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden"></div><div id="emptyState" class="text-center py-12 hidden"><div class="text-6xl mb-4">💡</div><h3 class="text-2xl font-semibold text-gray-700">Ainda não há avaliações</h3><p class="text-gray-600">Seja o primeiro a compartilhar sua leitura!</p></div><div id="recentError" class="error-message hidden"></div></div></section>
     
@@ -923,6 +944,17 @@
                 document.getElementById('bestsellersLoading').classList.add('hidden'); 
             } 
         }
+        // --- LÓGICA DE NAVEGAÇÃO CARROSSEL ---
+function scrollCarousel(direction) {
+    const container = document.getElementById('recommendationsCarousel');
+    const scrollAmount = 300; // Quantidade de pixels para rolar (largura aproximada de um card)
+    
+    if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+}
         
         // --- INICIALIZAÇÃO ---
         document.addEventListener('DOMContentLoaded', async () => {
