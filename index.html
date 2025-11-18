@@ -63,6 +63,7 @@
         
         .fade-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
         .like-btn { transition: all 0.2s ease; }
         .like-btn:hover { transform: scale(1.1); color: #ef4444; }
@@ -100,13 +101,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 1.4em;
-            transition: max-height 0.3s ease;
-        }
-        
-        .recommendation-text.expanded {
-            display: block;
-            -webkit-line-clamp: unset;
-            -webkit-box-orient: unset;
         }
         
         .read-more-btn {
@@ -298,18 +292,81 @@
             window.open(urls[type], '_blank'); 
         }
         
-        function toggleRecommendationText(cardId) {
-            const textElement = document.getElementById('text-' + cardId);
-            const btnElement = event.target;
-            const isExpanded = textElement.classList.contains('expanded');
+        function openRecommendationModal(cardId) {
+            const card = document.querySelector(`[data-card-id="${cardId}"]`);
+            if (!card) return;
             
-            if (isExpanded) {
-                textElement.classList.remove('expanded');
-                btnElement.innerHTML = 'Ver mais ↓';
-            } else {
-                textElement.classList.add('expanded');
-                btnElement.innerHTML = 'Ver menos ↑';
+            const coverImg = card.dataset.cover;
+            const bookTitle = card.dataset.bookTitle;
+            const author = card.dataset.author;
+            const fullText = card.dataset.sinopse;
+            const indicatedBy = card.dataset.indicatedBy;
+            const school = card.dataset.school;
+            const biblionLink = card.dataset.biblionLink;
+            
+            // Cria o modal
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    closeModal(modal);
+                }
+            };
+            
+            let biblionHTML = '';
+            if (biblionLink) {
+                biblionHTML = `
+                    <a href="${biblionLink}" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center justify-center w-full px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg mt-4">
+                        📖 Ler na BibliON
+                    </a>
+                `;
             }
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    
+                    <div class="modal-header">
+                        <div class="flex items-start gap-4">
+                            <img src="${coverImg}" alt="Capa de ${bookTitle}" class="modal-book-cover">
+                            <div class="flex-1 text-white pt-2">
+                                <h3 class="text-2xl font-bold mb-2">${bookTitle}</h3>
+                                <p class="text-blue-100 text-base">${author}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
+                            <p class="text-gray-700 text-base leading-relaxed italic">"${fullText}"</p>
+                        </div>
+                        
+                        <div class="border-t pt-4 mt-4">
+                            <p class="text-sm text-purple-600 font-medium">- ${indicatedBy}</p>
+                            ${school ? `<p class="text-xs text-gray-400 mt-1">${school}</p>` : ''}
+                        </div>
+                        
+                        ${biblionHTML}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modal) {
+            modal.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => {
+                modal.remove();
+                document.body.style.overflow = '';
+            }, 300);
         }
 
         // --- LÓGICA DE CURTIDAS ---
@@ -609,7 +666,7 @@
                     return; 
                 } 
                 
-                const cardPromises = recommendations.map(async (rec) => { 
+                const cardPromises = recommendations.map(async (rec, idx) => { 
                     const fields = rec.fields; 
                     const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor); 
                     const coverUrl = bookData.thumbnail || 'https://via.placeholder.com/150x220.png?text=Capa'; 
@@ -633,10 +690,17 @@
                     // Verifica se o texto precisa ser cortado
                     const sinopse = fields['Motivo da indicação'] || '';
                     const needsExpand = sinopse.length > 200;
-                    const cardId = `rec-${rec.id}`;
+                    const uniqueId = `rec-modal-${idx}-${Date.now()}`;
                     
                     return `
-                        <div class="recommendation-card block bg-white rounded-lg shadow-md p-4" id="${cardId}">
+                        <div class="recommendation-card block bg-white rounded-lg shadow-md p-4" data-card-id="${uniqueId}" 
+                             data-cover="${coverUrl}" 
+                             data-book-title="${fields['Livro indicado']?.replace(/"/g, '&quot;')}" 
+                             data-author="${(fields.Autor || 'N/A').replace(/"/g, '&quot;')}"
+                             data-sinopse="${sinopse.replace(/"/g, '&quot;')}"
+                             data-indicated-by="${(fields['Indicado por'] || 'Anônimo').replace(/"/g, '&quot;')}"
+                             data-school="${(fields.Escola || '').replace(/"/g, '&quot;')}"
+                             data-biblion-link="${biblionLink || ''}">
                             <div class="flex items-start space-x-4">
                                 <a href="${finalBookLink}" target="_blank" rel="noopener noreferrer">
                                     <img src="${coverUrl}" alt="Capa de ${fields['Livro indicado']}" 
@@ -646,8 +710,8 @@
                                     <h4 class="font-bold text-gray-800 mb-1">${fields['Livro indicado']}</h4>
                                     <p class="text-sm text-gray-500 mb-2">por ${fields.Autor || 'N/A'}</p>
                                     <div class="flex-grow">
-                                        <p class="text-sm italic text-gray-600 recommendation-text" id="text-${cardId}">"${sinopse}"</p>
-                                        ${needsExpand ? `<span class="read-more-btn" onclick="toggleRecommendationText('${cardId}')">Ver mais ↓</span>` : ''}
+                                        <p class="text-sm italic text-gray-600 recommendation-text">"${sinopse}"</p>
+                                        ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
                                     </div>
                                     <div class="text-right mt-2">
                                         <p class="text-xs text-purple-600 font-medium">- ${fields['Indicado por'] || 'Anônimo'}</p>
