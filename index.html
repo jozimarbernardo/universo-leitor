@@ -89,8 +89,39 @@
         .bestseller-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
         .bestseller-card:hover .bestseller-img { transform: scale(1.05); }
         
-        .recommendation-card { scroll-snap-align: start; flex: 0 0 250px; display: flex; flex-direction: column; }
+        .recommendation-card { scroll-snap-align: start; flex: 0 0 250px; display: flex; flex-direction: column; transition: all 0.3s ease; }
         @media (min-width: 640px) { .recommendation-card { flex: 0 0 280px; } }
+        .recommendation-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        
+        .recommendation-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4em;
+            transition: max-height 0.3s ease;
+        }
+        
+        .recommendation-text.expanded {
+            display: block;
+            -webkit-line-clamp: unset;
+            -webkit-box-orient: unset;
+        }
+        
+        .read-more-btn {
+            color: #6366f1;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        .read-more-btn:hover {
+            color: #4f46e5;
+            text-decoration: underline;
+        }
 
         .tab-button { border-bottom: 3px solid transparent; transition: all 0.3s ease; }
         .tab-button.active { border-bottom-color: #4f46e5; color: #1e3a8a; }
@@ -119,7 +150,7 @@
 
     <div class="max-w-3xl mx-auto px-4 space-y-3 mb-12">
         <div data-target="#registro-section" class="accordion-header flex justify-between items-center bg-blue-100 p-4 rounded-xl border-2 border-blue-200"><div class="flex items-center space-x-4"><span class="text-3xl">📝</span><div><h3 class="font-semibold text-lg text-blue-800">Contribuir</h3><p class="text-sm text-blue-700">Clique para registrar suas leituras, físicas ou digitais.</p></div></div><svg class="chevron-icon h-6 w-6 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
-        <div id="registro-section" class="collapsible-section pl-4 -mt-2"><div class="max-w-full mx-auto p-6 bg-white rounded-b-xl border"><div class="grid md:grid-cols-3 gap-6"><div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 text-center card-hover border border-yellow-200"><div class="text-4xl mb-4 rotate-icon">⭐</div><h3 class="text-lg font-semibold text-yellow-800 mb-3">Avaliar Livro</h3><p class="text-sm text-gray-600 mb-4">Qual nota você dá?</p><button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium text-center">Avaliar</button></div><div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 text-center card-hover border border-green-200"><div class="text-4xl mb-4 bounce-icon">💡</div><h3 class="text-lg font-semibold text-green-800 mb-3">Indicar Obra</h3><p class="text-sm text-gray-600 mb-4">Recomende para colegas</p><button onclick="openForm('indicacoes')" class="block w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-center">Indicar</button></div><div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 text-center card-hover border border-purple-200"><div class="text-4xl mb-4 float-icon">💭</div><h3 class="text-lg font-semibold text-purple-800 mb-3">Compartilhar Opiniões</h3><p class="text-sm text-gray-600 mb-4">Divida suas impressões</p><button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium text-center">Compartilhar</button></div></div></div></div>
+                    <div id="registro-section" class="collapsible-section pl-4 -mt-2"><div class="max-w-full mx-auto p-6 bg-white rounded-b-xl border"><div class="grid md:grid-cols-3 gap-6"><div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 text-center card-hover border border-yellow-200"><div class="text-4xl mb-4 rotate-icon">⭐</div><h3 class="text-lg font-semibold text-yellow-800 mb-3">Avaliar Livro</h3><p class="text-sm text-gray-600 mb-4">Qual nota você dá?</p><button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium text-center">Avaliar</button></div><div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 text-center card-hover border border-green-200"><div class="text-4xl mb-4 bounce-icon">💡</div><h3 class="text-lg font-semibold text-green-800 mb-3">Indicar Livro</h3><p class="text-sm text-gray-600 mb-4">Escreva uma sinopse e recomende</p><button onclick="openForm('indicacoes')" class="block w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-center">Indicar</button></div><div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 text-center card-hover border border-purple-200"><div class="text-4xl mb-4 float-icon">💭</div><h3 class="text-lg font-semibold text-purple-800 mb-3">Compartilhar Opiniões</h3><p class="text-sm text-gray-600 mb-4">Divida suas impressões</p><button onclick="openForm('avaliacoes')" class="block w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium text-center">Compartilhar</button></div></div></div></div>
         
         <div data-target="#desafios-section" class="accordion-header flex justify-between items-center bg-purple-100 p-4 rounded-xl border-2 border-purple-200"><div class="flex items-center space-x-4"><span class="text-3xl">🏆</span><div><h3 class="font-semibold text-lg text-purple-800">Desafios de Leitura</h3><p class="text-sm text-purple-700">Veja as metas atuais e participe da competição.</p></div></div><svg class="chevron-icon h-6 w-6 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></div>
         <section id="desafios-section" class="collapsible-section pl-4 -mt-2"><div class="p-6 bg-white rounded-b-xl border"><div id="challengesLoading" class="text-center py-8"><div class="loading-spinner mx-auto"></div></div><div id="challengesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto hidden"></div><div id="challengesEmpty" class="text-center py-8 hidden"><p class="text-gray-600">Nenhum desafio ativo no momento. Fique de olho!</p></div><div id="challengesError" class="error-message hidden"></div></div></section>
@@ -184,6 +215,19 @@
                 indicacoes: 'https://airtable.com/appskhDNXL6WImQeJ/pagh4DPujuQTB3SCT/form' 
             }; 
             window.open(urls[type], '_blank'); 
+        }
+        
+        function toggleRecommendationText(btn) {
+            const textElement = btn.previousElementSibling;
+            const isExpanded = textElement.classList.contains('expanded');
+            
+            if (isExpanded) {
+                textElement.classList.remove('expanded');
+                btn.textContent = 'Ver mais';
+            } else {
+                textElement.classList.add('expanded');
+                btn.textContent = 'Ver menos';
+            }
         }
 
         // --- LÓGICA DE CURTIDAS ---
@@ -504,17 +548,25 @@
                     
                     const schoolHTML = fields.Escola ? `<p class="text-xs text-gray-400 mt-1">${fields.Escola}</p>` : ''; 
                     
+                    // Verifica se o texto precisa ser cortado
+                    const sinopse = fields['Motivo da indicação'] || '';
+                    const needsExpand = sinopse.length > 200;
+                    const cardId = `rec-${rec.id}`;
+                    
                     return `
-                        <div class="recommendation-card block bg-white rounded-lg shadow-md p-4">
+                        <div class="recommendation-card block bg-white rounded-lg shadow-md p-4" id="${cardId}">
                             <div class="flex items-start space-x-4">
                                 <a href="${finalBookLink}" target="_blank" rel="noopener noreferrer">
                                     <img src="${coverUrl}" alt="Capa de ${fields['Livro indicado']}" 
-                                         class="w-20 h-28 object-cover rounded-md shadow-sm">
+                                         class="w-20 h-28 object-cover rounded-md shadow-sm flex-shrink-0">
                                 </a>
-                                <div class="flex-1 flex flex-col h-full">
-                                    <h4 class="font-bold text-gray-800">${fields['Livro indicado']}</h4>
+                                <div class="flex-1 flex flex-col">
+                                    <h4 class="font-bold text-gray-800 mb-1">${fields['Livro indicado']}</h4>
                                     <p class="text-sm text-gray-500 mb-2">por ${fields.Autor || 'N/A'}</p>
-                                    <p class="text-sm italic text-gray-600 flex-grow">"${fields['Motivo da indicação'] || ''}"</p>
+                                    <div class="flex-grow">
+                                        <p class="text-sm italic text-gray-600 recommendation-text" id="text-${cardId}">"${sinopse}"</p>
+                                        ${needsExpand ? `<span class="read-more-btn" onclick="toggleRecommendationText('${cardId}')">Ver mais ↓</span>` : ''}
+                                    </div>
                                     <div class="text-right mt-2">
                                         <p class="text-xs text-purple-600 font-medium">- ${fields['Indicado por'] || 'Anônimo'}</p>
                                         ${schoolHTML}
