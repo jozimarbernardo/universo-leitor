@@ -349,11 +349,21 @@
             
             .recommendation-card {
                 flex: 0 0 220px;
+                height: 300px; /* Altura menor no mobile */
             }
             
             .bestseller-card {
                 flex: 0 0 120px;
             }
+        }
+        
+        /* Utilitário para limitar linhas de texto */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -1016,7 +1026,21 @@
                 const cardPromises = recommendations.map(async (rec, idx) => { 
                     const fields = rec.fields; 
                     const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor); 
-                    const coverUrl = bookData.thumbnail || 'https://via.placeholder.com/150x220.png?text=Capa'; 
+                    
+                    // Se não encontrar capa, usa imagem de placeholder bonita
+                    let coverUrl = bookData.thumbnail;
+                    let coverHTML;
+                    
+                    if (coverUrl) {
+                        coverHTML = `<img src="${coverUrl}" alt="Capa de ${fields['Livro indicado']}" 
+                                         class="w-16 h-24 md:w-20 md:h-28 object-cover rounded-md shadow-sm flex-shrink-0">`;
+                    } else {
+                        // Placeholder com primeira letra do título
+                        const firstLetter = fields['Livro indicado']?.charAt(0).toUpperCase() || '📚';
+                        coverHTML = `<div class="w-16 h-24 md:w-20 md:h-28 rounded-md shadow-sm flex-shrink-0 book-cover-placeholder">${firstLetter}</div>`;
+                        coverUrl = ''; // Para o data-attribute
+                    }
+                    
                     const biblionLink = fields.Link_BibliON; 
                     const finalBookLink = biblionLink || bookData.bookLink || '#'; 
                     
@@ -1044,16 +1068,16 @@
                         .replace(/#{1,6}\s+/g, '')
                         .trim();
                     
-                    const sinopseResumida = sinopse.length > 80 ? 
-                        sinopse.substring(0, 80) + '...' : 
+                    const sinopseResumida = sinopse.length > 70 ? 
+                        sinopse.substring(0, 70) + '...' : 
                         sinopse;
                     
-                    const needsExpand = sinopse.length > 80;
+                    const needsExpand = sinopse.length > 70;
                     const uniqueId = `rec-modal-${idx}-${Date.now()}`;
                     
                     return `
                         <div class="recommendation-card block bg-white rounded-lg shadow-md p-3 md:p-4" data-card-id="${uniqueId}" 
-                             data-cover="${coverUrl}" 
+                             data-cover="${coverUrl || 'https://via.placeholder.com/150x220/667eea/ffffff?text=' + encodeURIComponent(firstLetter)}" 
                              data-book-title="${fields['Livro indicado']?.replace(/"/g, '&quot;')}" 
                              data-author="${(fields.Autor || 'N/A').replace(/"/g, '&quot;')}"
                              data-sinopse="${sinopse.replace(/"/g, '&quot;')}"
@@ -1062,11 +1086,10 @@
                              data-biblion-link="${biblionLink || ''}">
                             <div class="flex items-start space-x-3 md:space-x-4">
                                 <a href="${finalBookLink}" target="_blank" rel="noopener noreferrer">
-                                    <img src="${coverUrl}" alt="Capa de ${fields['Livro indicado']}" 
-                                         class="w-16 h-24 md:w-20 md:h-28 object-cover rounded-md shadow-sm flex-shrink-0">
+                                    ${coverHTML}
                                 </a>
                                 <div class="flex-1 flex flex-col min-w-0">
-                                    <h4 class="font-bold text-sm md:text-base text-gray-800 mb-1 truncate">${fields['Livro indicado']}</h4>
+                                    <h4 class="font-bold text-sm md:text-base text-gray-800 mb-1 line-clamp-2">${fields['Livro indicado']}</h4>
                                     <p class="text-xs md:text-sm text-gray-500 mb-2 truncate">por ${fields.Autor || 'N/A'}</p>
                                     <div class="flex-grow">
                                         <p class="text-xs md:text-sm italic text-gray-600 recommendation-text">${sinopseResumida}</p>
