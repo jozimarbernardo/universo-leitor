@@ -351,7 +351,7 @@
                     <div class="modal-body">
                         <div class="mb-4">
                             <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
-                            <p class="text-gray-700 text-base leading-relaxed italic">"${fullText}"</p>
+                            <p class="text-gray-700 text-base leading-relaxed italic">${fullText}</p>
                         </div>
                         
                         <div class="border-t pt-4 mt-4">
@@ -707,11 +707,11 @@
                         .trim();
                     
                     // Cria versão resumida apenas para visualização no card
-                    const sinopseResumida = sinopse.length > 200 ? 
-                        sinopse.substring(0, 200) + '...' : 
+                    const sinopseResumida = sinopse.length > 150 ? 
+                        sinopse.substring(0, 150) + '...' : 
                         sinopse;
                     
-                    const needsExpand = sinopse.length > 200;
+                    const needsExpand = sinopse.length > 150;
                     const uniqueId = `rec-modal-${idx}-${Date.now()}`;
                     
                     return `
@@ -732,7 +732,7 @@
                                     <h4 class="font-bold text-gray-800 mb-1">${fields['Livro indicado']}</h4>
                                     <p class="text-sm text-gray-500 mb-2">por ${fields.Autor || 'N/A'}</p>
                                     <div class="flex-grow">
-                                        <p class="text-sm italic text-gray-600 recommendation-text">"${sinopseResumida}"</p>
+                                        <p class="text-sm italic text-gray-600 recommendation-text">${sinopseResumida}</p>
                                         ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
                                     </div>
                                     <div class="text-right mt-2">
