@@ -1164,8 +1164,8 @@ const cardPromises = recommendations.map(async (rec, idx) => {
         <p class="text-xs md:text-sm italic text-gray-600 recommendation-text mb-2">${sinopseResumida}</p>
         ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
     </div>
-                                    <div class="mt-auto pt-2">
-    <div class="flex justify-between items-center mb-2">
+<div class="mt-auto pt-2">
+    <div class="flex items-center gap-3 mb-2">
         <div class="flex items-center space-x-1 text-gray-500">
             <button class="like-btn ${likedClass} p-1 border-none bg-transparent" onclick="handleLikeRecommendation(this, '${rec.id}')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
