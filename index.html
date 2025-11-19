@@ -1103,21 +1103,28 @@ const cardPromises = recommendations.map(async (rec, idx) => {
                 </a>
             </div>
         `; 
-    } else {
-        // CASO 2: NÃO TEM LINK (Botão Laranja - Busca Automática)
-        // Cria um link que pesquisa pelo nome do livro dentro do site da BibliON
-        const termoBusca = encodeURIComponent(fields['Livro indicado']);
-        const linkBusca = `https://biblion.odilo.us/info/search?query=${termoBusca}`;
-        
-        biblionButtonHTML = `
-            <div class="mt-auto pt-3">
-                <a href="${linkBusca}" target="_blank" rel="noopener noreferrer" 
-                   class="inline-flex items-center justify-center w-full px-3 py-2 text-xs md:text-sm font-semibold text-orange-600 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors">
-                    🔍 Buscar na BibliON
-                </a>
-            </div>
-        `;
-    }
+} else {
+                        // CASO 2: NÃO TEM LINK (Botão Laranja - Busca Automática)
+                        
+                        // 1. Limpa o nome do livro (tira espaços extras nas pontas)
+                        const nomeLivro = (fields['Livro indicado'] || '').trim();
+                        
+                        // 2. Codifica para URL (transforma espaços em códigos, etc)
+                        const termoBusca = encodeURIComponent(nomeLivro);
+                        
+                        // 3. Monta o link com o prefixo obrigatório 'allfields_txt:'
+                        // Isso diz ao site: "Procure este texto em qualquer lugar"
+                        const linkBusca = `https://biblion.odilo.us/results?query=allfields_txt:${termoBusca}`;
+                        
+                        biblionButtonHTML = `
+                            <div class="mt-auto pt-3">
+                                <a href="${linkBusca}" target="_blank" rel="noopener noreferrer" 
+                                   class="inline-flex items-center justify-center w-full px-3 py-2 text-xs md:text-sm font-semibold text-orange-600 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors">
+                                    🔍 Buscar na BibliON
+                                </a>
+                            </div>
+                        `;
+                    }
     // ------------------------------------------------------------- 
                     const likeCount = fields.Curtidas || 0;
                     const isLiked = isReviewLiked(`ind-${rec.id}`); // Prefixo 'ind-' para diferenciar de reviews
