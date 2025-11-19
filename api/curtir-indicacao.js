@@ -1,9 +1,9 @@
 const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-const TABLE_NAME = 'Indicacoes'; // Sem acento para a URL da API
+const TABLE_NAME = 'Indicacoes'; // Sem acento!
 
-export default async function handler(req, res) {
-    // Configurar CORS
+module.exports = async (req, res) => {
+    // CORS
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -67,4 +67,4 @@ export default async function handler(req, res) {
             message: error.message 
         });
     }
-}
+};
