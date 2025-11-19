@@ -1117,8 +1117,9 @@ const cardPromises = recommendations.map(async (rec, idx) => {
         ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
     </div>
 <div class="mt-auto pt-2">
-    <div class="flex items-center gap-3 mb-2">
-        <div class="flex items-center space-x-1 text-gray-500">
+    <div class="flex items-center gap-2 mb-2">
+        
+        <div class="flex items-center space-x-1 text-gray-500 flex-shrink-0">
             <button class="like-btn ${likedClass} p-1 border-none bg-transparent" onclick="handleLikeRecommendation(this, '${rec.id}')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -1126,8 +1127,9 @@ const cardPromises = recommendations.map(async (rec, idx) => {
             </button>
             <span class="like-count font-medium text-xs">${likeCount}</span>
         </div>
-        <div class="text-right min-w-0 flex-1">
-            <p class="text-xs text-purple-600 font-medium truncate"> ${fields['Indicado por'] || 'Anônimo'}</p>
+
+        <div class="text-left min-w-0 flex-1">
+            <p class="text-xs text-purple-600 font-medium leading-tight"> ${fields['Indicado por'] || 'Anônimo'}</p>
             ${schoolHTML}
         </div>
     </div>
