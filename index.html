@@ -833,54 +833,6 @@ async function handleLikeRecommendation(buttonEl, recordId) {
     buttonEl.style.opacity = '1'; 
 }
 
-async function handleLikeRecommendation(buttonEl, recordId) { 
-    const likeCountSpan = buttonEl.nextElementSibling; 
-    let currentLikes = parseInt(likeCountSpan.textContent, 10); 
-    const wasLiked = buttonEl.classList.contains('liked'); 
-    
-    buttonEl.disabled = true; 
-    buttonEl.style.opacity = '0.5'; 
-    
-    let newLikeCount; 
-    const prefixedId = `ind-${recordId}`;
-    
-    if (wasLiked) { 
-        buttonEl.classList.remove('liked'); 
-        newLikeCount = currentLikes - 1; 
-        removeLikedReview(prefixedId); 
-    } else { 
-        buttonEl.classList.add('liked'); 
-        newLikeCount = currentLikes + 1; 
-        saveLikedReview(prefixedId); 
-    } 
-    
-    likeCountSpan.textContent = newLikeCount; 
-    
-    try {
-        const response = await fetch(`/api/curtir-indicacao`, { 
-            method: 'POST', 
-            headers: { 'Content-Type': 'application/json' }, 
-            body: JSON.stringify({ recordId: recordId, newLikeCount: newLikeCount }) 
-        });
-        
-        if (!response.ok) throw new Error('Erro ao curtir');
-    } catch (error) {
-        // Reverte em caso de erro
-        if (wasLiked) { 
-            buttonEl.classList.add('liked'); 
-            saveLikedReview(prefixedId); 
-        } else { 
-            buttonEl.classList.remove('liked'); 
-            removeLikedReview(prefixedId); 
-        } 
-        likeCountSpan.textContent = currentLikes; 
-        alert('Erro ao salvar curtida. Tente novamente.'); 
-    }
-    
-    buttonEl.disabled = false; 
-    buttonEl.style.opacity = '1'; 
-        }
-
         // --- FUNÇÕES UTILITÁRIAS ---
         function getStars(rating) { 
             return '⭐'.repeat(rating ? rating.length : 0); 
