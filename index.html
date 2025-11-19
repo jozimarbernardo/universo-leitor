@@ -863,6 +863,51 @@ async function handleLikeRecommendation(buttonEl, recordId) {
     buttonEl.disabled = false; 
     buttonEl.style.opacity = '1'; 
 }
+async function handleLikeClick(buttonEl, recordId) { 
+    const likeCountSpan = buttonEl.nextElementSibling; 
+    let currentLikes = parseInt(likeCountSpan.textContent, 10) || 0; 
+    const wasLiked = buttonEl.classList.contains('liked'); 
+    
+    buttonEl.disabled = true; 
+    buttonEl.style.opacity = '0.5'; 
+    
+    let newLikeCount; 
+    
+    if (wasLiked) { 
+        buttonEl.classList.remove('liked'); 
+        newLikeCount = Math.max(0, currentLikes - 1);
+        removeLikedReview(recordId); 
+    } else { 
+        buttonEl.classList.add('liked'); 
+        newLikeCount = currentLikes + 1; 
+        saveLikedReview(recordId); 
+    } 
+    
+    likeCountSpan.textContent = newLikeCount; 
+    
+    try {
+        const success = await updateLikesInAirtable(recordId, newLikeCount);
+        
+        if (!success) {
+            throw new Error('Erro ao curtir');
+        }
+    } catch (error) {
+        console.error('Erro ao curtir avaliação:', error);
+        // Reverte em caso de erro
+        if (wasLiked) { 
+            buttonEl.classList.add('liked'); 
+            saveLikedReview(recordId); 
+        } else { 
+            buttonEl.classList.remove('liked'); 
+            removeLikedReview(recordId); 
+        } 
+        likeCountSpan.textContent = currentLikes; 
+        alert('Erro ao salvar curtida. Tente novamente.'); 
+    }
+    
+    buttonEl.disabled = false; 
+    buttonEl.style.opacity = '1'; 
+}
 
         // --- FUNÇÕES UTILITÁRIAS ---
         function getStars(rating) { 
@@ -1474,4 +1519,5 @@ let sinopse = fields['Motivo da indicação'] || '';
     </script>
 </body>
 </html>
+
 
