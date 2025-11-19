@@ -1018,12 +1018,23 @@
                     return; 
                 } 
                 
-                const cardPromises = recommendations.map(async (rec, idx) => { 
-                    const fields = rec.fields; 
-                    const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor); 
-                    const coverUrl = bookData.thumbnail || 'https://via.placeholder.com/150x220.png?text=Capa'; 
-                    const biblionLink = fields.Link_BibliON; 
-                    const finalBookLink = biblionLink || bookData.bookLink || '#'; 
+const cardPromises = recommendations.map(async (rec, idx) => { 
+    const fields = rec.fields; 
+    
+    // Prioriza: 1) Capa manual do Airtable, 2) Google Books API, 3) Placeholder
+    let coverUrl = 'https://via.placeholder.com/150x220.png?text=Capa';
+    
+    if (fields.Capa && fields.Capa.length > 0) {
+        // Usa a capa do Airtable se existir
+        coverUrl = fields.Capa[0].url;
+    } else {
+        // Tenta buscar via Google Books API
+        const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor);
+        coverUrl = bookData.thumbnail || coverUrl;
+    }
+const biblionLink = fields.Link_BibliON;
+const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor);
+const finalBookLink = biblionLink || bookData.bookLink || '#'; 
                     
                     let biblionButtonHTML = ''; 
                     if (biblionLink) { 
