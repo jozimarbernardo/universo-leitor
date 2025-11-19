@@ -699,20 +699,19 @@
                         </div>
                     </div>
                     
-                    <div class="modal-body">
-                        <div class="mb-4">
-                            <h4 class="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
-                            <p class="text-gray-700 text-sm md:text-base leading-relaxed italic">${fullText}</p>
-                        </div>
-                        
-                        <div class="border-t pt-4 mt-4">
-                            <p class="text-xs md:text-sm text-purple-600 font-medium">- ${indicatedBy}</p>
-                            ${school ? `<p class="text-xs text-gray-400 mt-1">${school}</p>` : ''}
-                        </div>
-                        
-                        ${biblionHTML}
-                    </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <h4 class="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
+                    <p class="text-gray-700 text-sm md:text-base leading-relaxed text-justify">${fullText}</p>
                 </div>
+                
+                <div class="border-t pt-4 mt-4">
+                    <p class="text-xs md:text-sm text-purple-600 font-medium">${indicatedBy}</p>
+                    ${school ? `<p class="text-xs text-gray-400 mt-1">${school}</p>` : ''}
+                </div>
+                
+                ${biblionHTML}
+            </div>
             `;
             
             document.body.appendChild(modal);
