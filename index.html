@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📚 Universo Leitor - Sua Comunidade de Leitura</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         /* Adicionei a fonte 'Luckiest Guy' na lista */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Luckiest+Guy&display=swap');
@@ -361,6 +362,7 @@
                 flex: 0 0 120px;
             }
         }
+        
     </style>
 </head>
 <body class="min-h-screen">
@@ -829,8 +831,25 @@ async function handleLikeRecommendation(buttonEl, recordId) {
     } else { 
         buttonEl.classList.add('liked'); 
         newLikeCount = currentLikes + 1; 
+        saveLikedReview(prefixedId);
+    if (wasLiked) { 
+        buttonEl.classList.remove('liked'); 
+        newLikeCount = Math.max(0, currentLikes - 1); 
+        removeLikedReview(prefixedId); 
+    } else { 
+        buttonEl.classList.add('liked'); 
+        newLikeCount = currentLikes + 1; 
         saveLikedReview(prefixedId); 
-    } 
+        
+        // EFEITO DE CONFETE! 🥳
+        // Isso solta uma explosão de cores vindo do mouse/dedo
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#8b5cf6', '#ec4899', '#f59e0b'] // Cores do seu tema (Roxo, Rosa, Laranja)
+        });
+    }
     
     likeCountSpan.textContent = newLikeCount; 
     
