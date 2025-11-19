@@ -1023,18 +1023,24 @@ const cardPromises = recommendations.map(async (rec, idx) => {
     
     // Prioriza: 1) Capa manual do Airtable, 2) Google Books API, 3) Placeholder
     let coverUrl = 'https://via.placeholder.com/150x220.png?text=Capa';
+    let bookLink = '#';
     
+    // Verifica se tem capa manual no Airtable
     if (fields.Capa && fields.Capa.length > 0) {
-        // Usa a capa do Airtable se existir
         coverUrl = fields.Capa[0].url;
-    } else {
-        // Tenta buscar via Google Books API
-        const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor);
+    }
+    
+    // Busca dados do livro via Google Books (para link e capa se não tiver manual)
+    const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor);
+    
+    // Se não tem capa manual, usa a do Google Books
+    if (!fields.Capa || fields.Capa.length === 0) {
         coverUrl = bookData.thumbnail || coverUrl;
     }
-const biblionLink = fields.Link_BibliON;
-const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor);
-const finalBookLink = biblionLink || bookData.bookLink || '#'; 
+    
+    // Define o link final (prioridade: BibliON > Google Books > #)
+    const biblionLink = fields.Link_BibliON;
+    const finalBookLink = biblionLink || bookData.bookLink || '#'; 
                     
                     let biblionButtonHTML = ''; 
                     if (biblionLink) { 
