@@ -654,15 +654,35 @@
             let fullText = card.dataset.sinopse;
             const indicatedBy = card.dataset.indicatedBy;
             const school = card.dataset.school;
-            const biblionLink = card.dataset.biblionLink;
+const biblionLink = card.dataset.biblionLink;
             
-            // Remove formatação Rich Text do modal também
+            // --- NOVA LÓGICA DE SEPARAÇÃO ---
+            
+            // 1. Limpa formatação básica (Negrito/Itálico), mas MANTÉM os 'Enters' (\n) por enquanto
             fullText = fullText
                 .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-                .replace(/\n/g, '<br>')
                 .trim();
-            
+
+            let headerMetadata = ''; // Vai guardar: Editora, Ano, Categoria...
+            let bodySynopsis = '';   // Vai guardar: A história do livro...
+
+            // 2. Procura por uma linha vazia (dois Enters seguidos) para separar
+            let parts = fullText.split(/\n\s*\n/);
+
+            if (parts.length > 1) {
+                // Se achou a separação:
+                // A primeira parte vai para o Topo (convertendo quebra de linha em <br>)
+                headerMetadata = parts[0].replace(/\n/g, '<br>'); 
+                
+                // O restante vai para a Sinopse (garantindo quebras de linha corretas)
+                bodySynopsis = parts.slice(1).join('<br><br>').replace(/\n/g, '<br>');
+            } else {
+                // Se NÃO achou linha vazia, joga tudo para a Sinopse
+                bodySynopsis = fullText.replace(/\n/g, '<br>');
+            }
+            // --------------------------------
+
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.onclick = (e) => {
@@ -681,7 +701,7 @@
                 `;
             }
             
-            modal.innerHTML = `
+modal.innerHTML = `
                 <div class="modal-content">
                     <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -693,25 +713,34 @@
                         <div class="flex items-start gap-4">
                             <img src="${coverImg}" alt="Capa de ${bookTitle}" class="modal-book-cover">
                             <div class="flex-1 text-white pt-2">
-                                <h3 class="text-xl md:text-2xl font-bold mb-2">${bookTitle}</h3>
-                                <p class="text-blue-100 text-sm md:text-base">${author}</p>
+                                <h3 class="text-xl md:text-2xl font-bold mb-1">${bookTitle}</h3>
+                                <p class="text-blue-100 text-sm md:text-base font-semibold">${author}</p>
+
+                                ${headerMetadata ? `
+                                    <div class="mt-3 text-xs md:text-sm text-blue-50 opacity-90 leading-snug border-l-2 border-blue-300 pl-3">
+                                        ${headerMetadata}
+                                    </div>
+                                ` : ''}
                             </div>
                         </div>
                     </div>
                     
-            <div class="modal-body">
-                <div class="mb-4">
-                    <h4 class="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
-                    <p class="text-gray-700 text-sm md:text-base leading-relaxed text-justify">${fullText}</p>
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <h4 class="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Sinopse</h4>
+                            <p class="text-gray-700 text-sm md:text-base leading-relaxed text-justify">
+                                ${bodySynopsis}
+                            </p>
+                        </div>
+                        
+                        <div class="border-t pt-4 mt-4">
+                            <p class="text-xs md:text-sm text-purple-600 font-medium">${indicatedBy}</p>
+                            ${school ? `<p class="text-xs text-gray-400 mt-1">${school}</p>` : ''}
+                        </div>
+                        
+                        ${biblionHTML}
+                    </div>
                 </div>
-                
-                <div class="border-t pt-4 mt-4">
-                    <p class="text-xs md:text-sm text-purple-600 font-medium">${indicatedBy}</p>
-                    ${school ? `<p class="text-xs text-gray-400 mt-1">${school}</p>` : ''}
-                </div>
-                
-                ${biblionHTML}
-            </div>
             `;
             
             document.body.appendChild(modal);
