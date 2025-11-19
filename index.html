@@ -63,29 +63,24 @@
         /* Efeito de confete ao curtir */
         @keyframes confetti-pop {
             0% { 
-                transform: scale(0) rotate(0deg) translate(0, 0); 
+                transform: scale(1) translate(0, 0) rotate(0deg); 
                 opacity: 1; 
             }
-            50% { 
-                transform: scale(1.5) rotate(180deg) translate(var(--tx), var(--ty)); 
-                opacity: 0.8; 
-            }
             100% { 
-                transform: scale(0) rotate(360deg) translate(calc(var(--tx) * 1.5), calc(var(--ty) * 1.5)); 
+                transform: scale(0) translate(var(--tx), var(--ty)) rotate(720deg); 
                 opacity: 0; 
             }
         }
         
         .confetti {
-            position: absolute;
-            width: 8px;
-            height: 8px;
+            position: fixed;
+            font-size: 20px;
             pointer-events: none;
             z-index: 9999;
         }
         
         .confetti-particle {
-            animation: confetti-pop 0.8s ease-out forwards;
+            animation: confetti-pop 1s ease-out forwards;
         }
         
         /* Bordas coloridas por avaliação */
@@ -809,17 +804,16 @@
             const colors = ['#fbbf24', '#ef4444', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899'];
             const shapes = ['●', '★', '♥', '✨'];
             
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 12; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti confetti-particle';
                 confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
                 confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
                 confetti.style.left = x + 'px';
                 confetti.style.top = y + 'px';
-                confetti.style.fontSize = (Math.random() * 10 + 10) + 'px';
                 
-                const angle = (Math.PI * 2 * i) / 8;
-                const velocity = 50 + Math.random() * 50;
+                const angle = (Math.PI * 2 * i) / 12;
+                const velocity = 80 + Math.random() * 40;
                 const tx = Math.cos(angle) * velocity;
                 const ty = Math.sin(angle) * velocity;
                 
@@ -828,7 +822,7 @@
                 
                 document.body.appendChild(confetti);
                 
-                setTimeout(() => confetti.remove(), 800);
+                setTimeout(() => confetti.remove(), 1000);
             }
         }
         
