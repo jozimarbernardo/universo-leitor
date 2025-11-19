@@ -1106,8 +1106,9 @@ const cardPromises = recommendations.map(async (rec, idx) => {
                     const likedClass = isLiked ? 'liked' : '';
                     const schoolHTML = fields.Escola ? `<p class="text-xs text-gray-400 mt-1">${fields.Escola}</p>` : ''; 
                     
-                    let sinopse = fields['Motivo da indicação'] || '';
+let sinopse = fields['Motivo da indicação'] || '';
                     
+                    // 1. Limpeza da formatação (Mantém o texto COMPLETO na variável 'sinopse' para o Modal usar depois)
                     sinopse = sinopse
                         .replace(/\*\*([^*]+)\*\*/g, '$1')
                         .replace(/\*([^*]+)\*/g, '$1')
@@ -1116,9 +1117,26 @@ const cardPromises = recommendations.map(async (rec, idx) => {
                         .replace(/#{1,6}\s+/g, '')
                         .trim();
                     
-                    const sinopseResumida = sinopse.length > 80 ? 
-                        sinopse.substring(0, 80) + '...' : 
-                        sinopse;
+                    // --- NOVA LÓGICA PARA O RESUMO DO CARD ---
+                    
+                    // Vamos criar uma variável temporária só com a parte da história
+                    let textoApenasHistoria = sinopse;
+                    
+                    // Tenta dividir onde tem a linha vazia (igual fizemos no modal)
+                    let partsCard = sinopse.split(/\n\s*\n/);
+                    
+                    if (partsCard.length > 1) {
+                        // Se achou a divisão, pega a 2ª parte em diante (a história)
+                        // O join(' ') garante que se houver vários parágrafos na história, eles fiquem juntos
+                        textoApenasHistoria = partsCard.slice(1).join(' ').trim();
+                    }
+
+                    // Agora cria o resumo baseando-se APENAS na história, não nos dados técnicos
+                    const sinopseResumida = textoApenasHistoria.length > 80 ? 
+                        textoApenasHistoria.substring(0, 80) + '...' : 
+                        textoApenasHistoria;
+                    
+                    // -----------------------------------------
                     
                     const needsExpand = sinopse.length > 80;
                     const uniqueId = `rec-modal-${idx}-${Date.now()}`;
