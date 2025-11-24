@@ -6,7 +6,8 @@
     <title>📚 Universo Leitor - Sua Comunidade de Leitura</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* Adicionei a fonte 'Luckiest Guy' na lista */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Luckiest+Guy&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
@@ -47,6 +48,62 @@
 
         .swing-icon { animation: swing 2s ease-in-out infinite; }
         @keyframes swing { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+
+        /* Gradiente animado no título */
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .animated-gradient {
+            background-size: 200% auto;
+            animation: gradient-shift 4s ease infinite;
+        }
+        
+        /* Efeito de confete ao curtir */
+        @keyframes confetti-pop {
+            0% { 
+                transform: scale(1) translate(0, 0) rotate(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: scale(0) translate(var(--tx), var(--ty)) rotate(720deg); 
+                opacity: 0; 
+            }
+        }
+        
+        .confetti {
+            position: fixed;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .confetti-particle {
+            animation: confetti-pop 1s ease-out forwards;
+        }
+        
+        /* Bordas coloridas por avaliação */
+        .rating-border-5 { 
+            border-left: 6px solid #fbbf24; 
+            box-shadow: -2px 0 8px rgba(251, 191, 36, 0.3);
+        }
+        .rating-border-4 { 
+            border-left: 6px solid #10b981; 
+            box-shadow: -2px 0 8px rgba(16, 185, 129, 0.3);
+        }
+        .rating-border-3 { 
+            border-left: 6px solid #3b82f6; 
+            box-shadow: -2px 0 8px rgba(59, 130, 246, 0.3);
+        }
+        .rating-border-2 { 
+            border-left: 6px solid #f59e0b; 
+            box-shadow: -2px 0 8px rgba(245, 158, 11, 0.3);
+        }
+        .rating-border-1 { 
+            border-left: 6px solid #ef4444; 
+            box-shadow: -2px 0 8px rgba(239, 68, 68, 0.3);
+        }
 
         .review-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -365,8 +422,10 @@
 <body class="min-h-screen">
     <div class="text-gray-800 pt-8 md:pt-12 px-4">
         <div class="max-w-4xl mx-auto text-center">
-            <div class="text-4xl md:text-5xl mb-4 float-icon">📖</div>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-800 tracking-tight">Universo Leitor</h1>
+<div class="text-4xl md:text-5xl mb-4 float-icon">📖</div> <h1 style="font-family: 'Luckiest Guy', cursive; letter-spacing: 2px;" 
+    class="text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 drop-shadow-sm hover:scale-105 transition-transform duration-300 cursor-default animated-gradient">
+    Universo Leitor
+</h1>
             <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mt-4">Sua estante, suas regras. Descubra, avalie e compartilhe suas leituras e as histórias que te movem!</p>
         </div>
     </div>
@@ -443,7 +502,7 @@
         
         <div data-target="#desafios-section" class="accordion-header flex justify-between items-center bg-purple-100 p-3 md:p-4 rounded-xl border-2 border-purple-200">
             <div class="flex items-center space-x-3 md:space-x-4">
-                <span class="text-2xl md:text-3xl">🏆</span>
+                <span class="text-2xl md:text-3xl">🎯</span>
                 <div>
                     <h3 class="font-semibold text-base md:text-lg text-purple-800">Desafios de Leitura</h3>
                     <p class="text-xs md:text-sm text-purple-700">Veja as metas atuais e participe da competição.</p>
@@ -654,7 +713,7 @@
             let fullText = card.dataset.sinopse;
             const indicatedBy = card.dataset.indicatedBy;
             const school = card.dataset.school;
-const biblionLink = card.dataset.biblionLink;
+            const biblionLink = card.dataset.biblionLink;
             
             // --- NOVA LÓGICA DE SEPARAÇÃO ---
             
@@ -701,7 +760,7 @@ const biblionLink = card.dataset.biblionLink;
                 `;
             }
             
-modal.innerHTML = `
+            modal.innerHTML = `
                 <div class="modal-content">
                     <button class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -756,6 +815,32 @@ modal.innerHTML = `
         }
 
         // --- LÓGICA DE CURTIDAS ---
+        function createConfetti(x, y) {
+            const colors = ['#fbbf24', '#ef4444', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899'];
+            const shapes = ['●', '★', '♥', '✨'];
+            
+            for (let i = 0; i < 12; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti confetti-particle';
+                confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                
+                const angle = (Math.PI * 2 * i) / 12;
+                const velocity = 80 + Math.random() * 40;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
+                confetti.style.setProperty('--tx', tx + 'px');
+                confetti.style.setProperty('--ty', ty + 'px');
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 1000);
+            }
+        }
+        
         function getLikedReviews() { 
             try { 
                 const liked = localStorage.getItem('likedReviews'); 
@@ -808,58 +893,112 @@ modal.innerHTML = `
             }
         }
         
-async function handleLikeRecommendation(buttonEl, recordId) { 
-    const likeCountSpan = buttonEl.nextElementSibling; 
-    let currentLikes = parseInt(likeCountSpan.textContent, 10) || 0; 
-    const wasLiked = buttonEl.classList.contains('liked'); 
-    
-    buttonEl.disabled = true; 
-    buttonEl.style.opacity = '0.5'; 
-    
-    let newLikeCount; 
-    const prefixedId = `ind-${recordId}`;
-    
-    if (wasLiked) { 
-        buttonEl.classList.remove('liked'); 
-        newLikeCount = Math.max(0, currentLikes - 1); // Evita valores negativos
-        removeLikedReview(prefixedId); 
-    } else { 
-        buttonEl.classList.add('liked'); 
-        newLikeCount = currentLikes + 1; 
-        saveLikedReview(prefixedId); 
-    } 
-    
-    likeCountSpan.textContent = newLikeCount; 
-    
-    try {
-        const response = await fetch(`/api/curtir-indicacao`, { 
-            method: 'POST', 
-            headers: { 'Content-Type': 'application/json' }, 
-            body: JSON.stringify({ recordId: recordId, newLikeCount: newLikeCount }) 
-        });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Erro na resposta:', errorData);
-            throw new Error('Erro ao curtir');
+        async function handleLikeClick(buttonEl, recordId) { 
+            const likeCountSpan = buttonEl.nextElementSibling; 
+            let currentLikes = parseInt(likeCountSpan.textContent, 10) || 0; 
+            const wasLiked = buttonEl.classList.contains('liked'); 
+            
+            buttonEl.disabled = true; 
+            buttonEl.style.opacity = '0.5'; 
+            
+            let newLikeCount; 
+            
+            if (wasLiked) { 
+                buttonEl.classList.remove('liked'); 
+                newLikeCount = Math.max(0, currentLikes - 1);
+                removeLikedReview(recordId); 
+            } else { 
+                buttonEl.classList.add('liked'); 
+                newLikeCount = currentLikes + 1; 
+                saveLikedReview(recordId); 
+                
+                // Efeito de confete ao curtir
+                const rect = buttonEl.getBoundingClientRect();
+                createConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            } 
+            
+            likeCountSpan.textContent = newLikeCount; 
+            
+            try {
+                const success = await updateLikesInAirtable(recordId, newLikeCount);
+                
+                if (!success) {
+                    throw new Error('Erro ao curtir');
+                }
+            } catch (error) {
+                console.error('Erro ao curtir avaliação:', error);
+                // Reverte em caso de erro
+                if (wasLiked) { 
+                    buttonEl.classList.add('liked'); 
+                    saveLikedReview(recordId); 
+                } else { 
+                    buttonEl.classList.remove('liked'); 
+                    removeLikedReview(recordId); 
+                } 
+                likeCountSpan.textContent = currentLikes; 
+                alert('Erro ao salvar curtida. Tente novamente.'); 
+            }
+            
+            buttonEl.disabled = false; 
+            buttonEl.style.opacity = '1'; 
         }
-    } catch (error) {
-        console.error('Erro ao curtir indicação:', error);
-        // Reverte em caso de erro
-        if (wasLiked) { 
-            buttonEl.classList.add('liked'); 
-            saveLikedReview(prefixedId); 
-        } else { 
-            buttonEl.classList.remove('liked'); 
-            removeLikedReview(prefixedId); 
-        } 
-        likeCountSpan.textContent = currentLikes; 
-        alert('Erro ao salvar curtida. Tente novamente.'); 
-    }
-    
-    buttonEl.disabled = false; 
-    buttonEl.style.opacity = '1'; 
-}
+        
+        async function handleLikeRecommendation(buttonEl, recordId) { 
+            const likeCountSpan = buttonEl.nextElementSibling; 
+            let currentLikes = parseInt(likeCountSpan.textContent, 10) || 0; 
+            const wasLiked = buttonEl.classList.contains('liked'); 
+            
+            buttonEl.disabled = true; 
+            buttonEl.style.opacity = '0.5'; 
+            
+            let newLikeCount; 
+            const prefixedId = `ind-${recordId}`;
+            
+            if (wasLiked) { 
+                buttonEl.classList.remove('liked'); 
+                newLikeCount = Math.max(0, currentLikes - 1);
+                removeLikedReview(prefixedId); 
+            } else { 
+                buttonEl.classList.add('liked'); 
+                newLikeCount = currentLikes + 1; 
+                saveLikedReview(prefixedId); 
+                
+                // Efeito de confete ao curtir
+                const rect = buttonEl.getBoundingClientRect();
+                createConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            } 
+            
+            likeCountSpan.textContent = newLikeCount; 
+            
+            try {
+                const response = await fetch(`/api/curtir-indicacao`, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ recordId: recordId, newLikeCount: newLikeCount }) 
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Erro na resposta:', errorData);
+                    throw new Error('Erro ao curtir');
+                }
+            } catch (error) {
+                console.error('Erro ao curtir indicação:', error);
+                // Reverte em caso de erro
+                if (wasLiked) { 
+                    buttonEl.classList.add('liked'); 
+                    saveLikedReview(prefixedId); 
+                } else { 
+                    buttonEl.classList.remove('liked'); 
+                    removeLikedReview(prefixedId); 
+                } 
+                likeCountSpan.textContent = currentLikes; 
+                alert('Erro ao salvar curtida. Tente novamente.'); 
+            }
+            
+            buttonEl.disabled = false; 
+            buttonEl.style.opacity = '1'; 
+        }
 
         // --- FUNÇÕES UTILITÁRIAS ---
         function getStars(rating) { 
@@ -900,7 +1039,6 @@ async function handleLikeRecommendation(buttonEl, recordId) {
         async function createReviewCard(review, index, pageSize) { 
             const fields = review.fields; 
             const card = document.createElement('div'); 
-            card.className = 'review-card bg-white rounded-2xl p-4 shadow-lg border border-gray-100 fade-in flex flex-col'; 
             card.style.animationDelay = `${(index % pageSize) * 0.1}s`; 
             
             const recommendationHTML = fields.Recomenda ? 
@@ -912,7 +1050,7 @@ async function handleLikeRecommendation(buttonEl, recordId) {
                 const challengeId = fields['Desafio Cumprido'][0]; 
                 const challenge = challengesCache.find(c => c.id === challengeId); 
                 if (challenge) { 
-                    challengeHTML = `<div class="mt-3 bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-1 rounded-full text-center">🏆 ${challenge.fields['Nome do Desafio']}</div>`; 
+                    challengeHTML = `<div class="mt-3 bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-1 rounded-full text-center">🎯 ${challenge.fields['Nome do Desafio']}</div>`; 
                 } 
             } 
             
@@ -932,6 +1070,12 @@ async function handleLikeRecommendation(buttonEl, recordId) {
             const isLiked = isReviewLiked(review.id); 
             const likedClass = isLiked ? 'liked' : ''; 
             const schoolHTML = fields.Escola ? `<p class="text-xs text-gray-400">${fields.Escola}</p>` : ''; 
+            
+            // Define a classe de borda baseada na avaliação
+            const ratingCount = fields.Avaliacao ? fields.Avaliacao.length : 0;
+            const ratingBorderClass = ratingCount > 0 ? `rating-border-${ratingCount}` : '';
+            
+            card.className = `review-card bg-white rounded-2xl p-4 shadow-lg border border-gray-100 fade-in flex flex-col ${ratingBorderClass}`;
             
             card.innerHTML = `
                 <div class="flex-grow">
@@ -957,7 +1101,7 @@ async function handleLikeRecommendation(buttonEl, recordId) {
                         <span class="like-count font-medium text-xs">${likeCount}</span>
                     </div>
                     <div class="text-right min-w-0">
-                        <span class="text-purple-600 font-medium text-xs md:text-sm block truncate">📚 ${fields.Estudante || 'Anônimo'}</span>
+                        <span class="text-purple-600 font-medium text-xs md:text-sm block truncate">💬 ${fields.Estudante || 'Anônimo'}</span>
                         ${schoolHTML}
                     </div>
                 </div>
@@ -1036,7 +1180,7 @@ async function handleLikeRecommendation(buttonEl, recordId) {
                     card.className = 'challenge-card p-4 md:p-6 rounded-2xl shadow-md border border-indigo-200'; 
                     card.innerHTML = `
                         <h3 class="text-lg md:text-xl font-bold text-indigo-800 mb-3 flex items-center">
-                            <span class="text-xl md:text-2xl mr-3">🏆</span> ${fields['Nome do Desafio']}
+                            <span class="text-xl md:text-2xl mr-3">🎯</span> ${fields['Nome do Desafio']}
                         </h3>
                         <p class="text-sm md:text-base text-gray-700">${fields['Descrição'] || 'Complete este desafio!'}</p>
                     `; 
@@ -1066,44 +1210,44 @@ async function handleLikeRecommendation(buttonEl, recordId) {
                     return; 
                 } 
                 
-const cardPromises = recommendations.map(async (rec, idx) => { 
-    const fields = rec.fields; 
-    
-    // Prioriza: 1) Capa manual do Airtable, 2) Google Books API, 3) Placeholder
-    let coverUrl = 'https://via.placeholder.com/150x220.png?text=Capa';
-    let bookLink = '#';
-    
-    // Verifica se tem capa manual no Airtable
-    if (fields.Capa && fields.Capa.length > 0) {
-        coverUrl = fields.Capa[0].url;
-    }
-    
-    // Busca dados do livro via Google Books (para link e capa se não tiver manual)
-    const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor);
-    
-    // Se não tem capa manual, usa a do Google Books
-    if (!fields.Capa || fields.Capa.length === 0) {
-        coverUrl = bookData.thumbnail || coverUrl;
-    }
-    
-// Define o link final (prioridade: BibliON > Google Books > #)
-    const biblionLink = fields.Link_BibliON;
-    const finalBookLink = biblionLink || bookData.bookLink || '#'; 
+                const cardPromises = recommendations.map(async (rec, idx) => { 
+                    const fields = rec.fields; 
                     
-    // --- NOVA LÓGICA: Botão Inteligente (Link Direto ou Busca) ---
-    let biblionButtonHTML = ''; 
+                    // Prioriza: 1) Capa manual do Airtable, 2) Google Books API, 3) Placeholder
+                    let coverUrl = 'https://via.placeholder.com/150x220.png?text=Capa';
+                    let bookLink = '#';
+                    
+                    // Verifica se tem capa manual no Airtable
+                    if (fields.Capa && fields.Capa.length > 0) {
+                        coverUrl = fields.Capa[0].url;
+                    }
+                    
+                    // Busca dados do livro via Google Books (para link e capa se não tiver manual)
+                    const bookData = await fetchBookData(fields['Livro indicado'], fields.Autor);
+                    
+                    // Se não tem capa manual, usa a do Google Books
+                    if (!fields.Capa || fields.Capa.length === 0) {
+                        coverUrl = bookData.thumbnail || coverUrl;
+                    }
+                    
+                    // Define o link final (prioridade: BibliON > Google Books > #)
+                    const biblionLink = fields.Link_BibliON;
+                    const finalBookLink = biblionLink || bookData.bookLink || '#'; 
+                    
+                    // --- NOVA LÓGICA: Botão Inteligente (Link Direto ou Busca) ---
+                    let biblionButtonHTML = ''; 
 
-    if (biblionLink) { 
-        // CASO 1: TEM LINK NA TABELA (Botão Azul - Direto)
-        biblionButtonHTML = `
-            <div class="mt-auto pt-3">
-                <a href="${biblionLink}" target="_blank" rel="noopener noreferrer" 
-                   class="inline-flex items-center justify-center w-full px-3 py-2 text-xs md:text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
-                    📖 Ler na BibliON
-                </a>
-            </div>
-        `; 
-} else {
+                    if (biblionLink) { 
+                        // CASO 1: TEM LINK NA TABELA (Botão Azul - Direto)
+                        biblionButtonHTML = `
+                            <div class="mt-auto pt-3">
+                                <a href="${biblionLink}" target="_blank" rel="noopener noreferrer" 
+                                   class="inline-flex items-center justify-center w-full px-3 py-2 text-xs md:text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+                                    📖 Ler na BibliON
+                                </a>
+                            </div>
+                        `; 
+                    } else {
                         // CASO 2: NÃO TEM LINK (Botão Laranja - Busca Automática)
                         
                         // 1. Limpa o nome do livro (tira espaços extras nas pontas)
@@ -1125,13 +1269,13 @@ const cardPromises = recommendations.map(async (rec, idx) => {
                             </div>
                         `;
                     }
-    // ------------------------------------------------------------- 
+                    // ------------------------------------------------------------- 
                     const likeCount = fields.Curtidas || 0;
                     const isLiked = isReviewLiked(`ind-${rec.id}`); // Prefixo 'ind-' para diferenciar de reviews
                     const likedClass = isLiked ? 'liked' : '';
                     const schoolHTML = fields.Escola ? `<p class="text-xs text-gray-400 mt-1">${fields.Escola}</p>` : ''; 
                     
-let sinopse = fields['Motivo da indicação'] || '';
+                    let sinopse = fields['Motivo da indicação'] || '';
                     
                     // 1. Limpeza da formatação (Mantém o texto COMPLETO na variável 'sinopse' para o Modal usar depois)
                     sinopse = sinopse
@@ -1181,33 +1325,33 @@ let sinopse = fields['Motivo da indicação'] || '';
                                          class="w-16 h-24 md:w-20 md:h-28 object-cover rounded-md shadow-sm flex-shrink-0">
                                 </a>
                                 <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-    <h4 class="font-bold text-sm md:text-base text-gray-800 mb-2 truncate" style="word-break: break-word;">${fields['Livro indicado']}</h4>
-    <p class="text-xs md:text-sm text-gray-500 mb-3 truncate" style="word-break: break-word;">por ${fields.Autor || 'N/A'}</p>
-    <div class="flex-grow mb-3">
-        <p class="text-xs md:text-sm italic text-gray-600 recommendation-text mb-2">${sinopseResumida}</p>
-        ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
-    </div>
-<div class="mt-auto pt-2">
-    <div class="flex items-end justify-between gap-2 mb-2">
-        
-        <div class="text-left min-w-0 flex-1">
-            <p class="text-xs text-purple-600 font-medium leading-tight">
-                ${fields['Indicado por'] || 'Anônimo'}
-            </p>
-            ${schoolHTML}
-        </div>
+                                    <h4 class="font-bold text-sm md:text-base text-gray-800 mb-2 truncate" style="word-break: break-word;">${fields['Livro indicado']}</h4>
+                                    <p class="text-xs md:text-sm text-gray-500 mb-3 truncate" style="word-break: break-word;">por ${fields.Autor || 'N/A'}</p>
+                                    <div class="flex-grow mb-3">
+                                        <p class="text-xs md:text-sm italic text-gray-600 recommendation-text mb-2">${sinopseResumida}</p>
+                                        ${needsExpand ? `<span class="read-more-btn" onclick="openRecommendationModal('${uniqueId}')">Ver mais ↓</span>` : ''}
+                                    </div>
+                                    <div class="mt-auto pt-2">
+                                        <div class="flex items-end justify-between gap-2 mb-2">
+                                            
+                                            <div class="text-left min-w-0 flex-1">
+                                                <p class="text-xs text-purple-600 font-medium leading-tight">
+                                                    ${fields['Indicado por'] || 'Anônimo'}
+                                                </p>
+                                                ${schoolHTML}
+                                            </div>
 
-        <div class="flex items-center space-x-1 text-gray-500 flex-shrink-0 mb-0.5">
-            <button class="like-btn ${likedClass} p-1 border-none bg-transparent" onclick="handleLikeRecommendation(this, '${rec.id}')">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-            </button>
-            <span class="like-count font-medium text-xs">${likeCount}</span>
-        </div>
-        
-    </div>
-</div>
+                                            <div class="flex items-center space-x-1 text-gray-500 flex-shrink-0 mb-0.5">
+                                                <button class="like-btn ${likedClass} p-1 border-none bg-transparent" onclick="handleLikeRecommendation(this, '${rec.id}')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                                    </svg>
+                                                </button>
+                                                <span class="like-count font-medium text-xs">${likeCount}</span>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             ${biblionButtonHTML}
